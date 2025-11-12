@@ -1,0 +1,9 @@
+/* Service card image zoom effect on hover */
+.service-image {
+  transition: transform 300ms ease-in-out;
+  transform: scale(1);
+}
+
+.group:hover .service-image {
+  transform: scale(1.05);
+}
