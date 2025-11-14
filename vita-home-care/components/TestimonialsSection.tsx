@@ -57,10 +57,10 @@ export default function TestimonialsSection() {
     <section className="relative mt-24 py-16 bg-neutral-100 overflow-hidden">
       {/* Section Header */}
       <div className="text-center mb-12 px-4 md:px-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#6d55d9]">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0000FF]">
           Testimonials
         </p>
-        <h2 className="mt-4 text-4xl font-semibold leading-tight text-[#2c254c] md:text-5xl">
+        <h2 className="mt-4 text-4xl font-semibold leading-tight text-[#003366] md:text-5xl">
           Don't take our word for
           <br />
           it take theirs
@@ -74,7 +74,7 @@ export default function TestimonialsSection() {
             >
               <path
                 d="M2 6C50 2 150 2 198 6"
-                stroke="#a78bfa"
+                stroke="#0000FF"
                 strokeWidth="3"
                 strokeLinecap="round"
               />

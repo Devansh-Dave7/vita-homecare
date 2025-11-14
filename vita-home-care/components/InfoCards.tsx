@@ -2,27 +2,27 @@ import React from "react";
 
 export default function InfoCards() {
   return (
-    <div className="relative z-10 -mt-32 pb-16">
+    <div className="relative z-10 -mt-32 pb-20">
       <div className="mx-auto w-full max-w-7xl px-4">
-        <div className="rounded-xl border border-[#ece7f9] bg-white/90 shadow-[0_8px_24px_-8px_rgba(93,70,176,0.15)] backdrop-blur supports-[backdrop-filter]:bg-white">
+        <div className="rounded-2xl border border-[#ece7f9] bg-white/95 shadow-[0_20px_60px_-15px_rgba(93,70,176,0.25)] backdrop-blur supports-[backdrop-filter]:bg-white">
           <div className="grid divide-y divide-[#e9e3f7] md:grid-cols-3 md:divide-x md:divide-y-0">
             {cards.map(card => (
-              <div key={card.title} className="flex flex-col gap-4 p-8 md:p-10">
-                <div className="flex items-center gap-4">
-                  <span className="grid h-14 w-14 place-content-center rounded-full bg-[#efe9fb] text-[#6d55d9]">
+              <div key={card.title} className="flex flex-col gap-6 p-10 md:p-12">
+                <div className="flex items-center gap-5">
+                  <span className="grid h-16 w-16 place-content-center rounded-2xl bg-gradient-to-br from-[#efe9fb] to-[#f5f2fc] text-[#6d55d9] shadow-lg">
                     {card.icon}
                   </span>
                   <div>
-                    <h3 className="text-base font-semibold text-[#2c254c]">{card.title}</h3>
-                    <p className="mt-1 text-sm text-[#4f4865]">{card.detail}</p>
+                    <h3 className="text-xl font-monorope font-bold text-[#2c254c]">{card.title}</h3>
+                    <p className="mt-2 text-base font-monorope font-medium text-[#4f4865]">{card.detail}</p>
                   </div>
                 </div>
                 <a
                   href={card.href}
-                  className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-[#6d55d9] hover:text-[#FFB3A3] transition-all duration-300 group"
+                  className="mt-auto inline-flex items-center gap-3 text-base font-monorope font-bold text-[#6d55d9] hover:text-[#FFB3A3] transition-all duration-300 group hover:scale-105"
                 >
                   {card.cta}
-                  <svg viewBox="0 0 24 24" className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
                     <path fill="currentColor" d="M13 5l-1.4 1.4 4.2 4.1H5v2h10.8l-4.2 4.1L13 18l7-7-7-6z" />
                   </svg>
                 </a>
@@ -35,7 +35,7 @@ export default function InfoCards() {
   );
 }
 
-const iconClass = "h-7 w-7";
+const iconClass = "h-8 w-8";
 
 const cards = [
   {
@@ -47,7 +47,7 @@ const cards = [
       <svg viewBox="0 0 24 24" className={iconClass}>
         <path
           fill="currentColor"
-          d="M6.6 3c-.9 0-1.6.7-1.6 1.6C4.4 11 13 19.6 19.4 19.6c.9 0 1.6-.7 1.6-1.6v-2.7c0-.9-.7-1.6-1.6-1.6-1.8 0-3.5-.3-5.1-1-.5-.2-1.2-.1-1.5.3l-1.6 1.6c-2.5-1.3-4.6-3.4-5.9-5.9l1.6-1.6c.4-.4.6-1 .3-1.5-.7-1.6-1-3.3-1-5.1C8.2 3.7 7.5 3 6.6 3z"
+          d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"
         />
       </svg>
     ),

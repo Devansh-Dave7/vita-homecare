@@ -39,7 +39,7 @@ const services: Service[] = [
     copy:
       "Elit amet enim, pretium consequat lectus odio ut sed enim level adipiscing sed aliquam craset.",
     img:
-      "https://images.unsplash.com/photo-1519836711297-92967f05a356?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#6d55d9]" aria-hidden>
         <path fill="currentColor" d="M17 7a5 5 0 00-9.7-1.4A5 5 0 007 16h1v2a2 2 0 002 2h4a2 2 0 002-2v-2h1a5 5 0 000-10z" />
@@ -63,7 +63,7 @@ const services: Service[] = [
     copy:
       "Elit amet enim, pretium consequat lectus odio ut sed enim level adipiscing sed aliquam craset.",
     img:
-      "https://images.unsplash.com/photo-1549575810-1578b5d94c1b?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#6d55d9]" aria-hidden>
         <path fill="currentColor" d="M17 2l-5 5 2 2 5-5-2-2zM2 17l5-5 2 2-5 5-2-2zm7-4l6 6 5-5-6-6-5 5z" />
@@ -97,6 +97,7 @@ export default function ServicesCarousel() {
     if (!slideEls.length) return;
     const next = Math.max(0, Math.min(count - 1, active + dir));
     const el = slideEls[next];
+    // Adjust scroll position to account for left padding
     scroller.scrollTo({ left: el.offsetLeft - 16, behavior: "smooth" });
     setActive(next);
   };
@@ -126,32 +127,32 @@ export default function ServicesCarousel() {
 
   return (
     <div className="relative">
-      <div className="relative">
+      <div className="relative md:flex md:items-center md:gap-4">
         <button
           aria-label="Previous"
           onClick={() => slide(-1)}
-          className="absolute left-2 top-1/2 z-20 -translate-y-1/2 grid h-12 w-12 place-content-center rounded-full bg-white shadow-lg text-[#2c254c] hover:text-[#6d55d9] transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-transparent hover:border-[#6d55d9]/20"
+          className="hidden md:grid absolute left-2 top-1/2 z-20 -translate-y-1/2 h-12 w-12 place-content-center rounded-full bg-white shadow-lg text-[#2c254c] hover:text-[#6d55d9] transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-transparent hover:border-[#6d55d9]/20"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden><path fill="currentColor" d="M15 19l-7-7 7-7 1.4 1.4L10.8 12l5.6 5.6L15 19z"/></svg>
         </button>
         <button
           aria-label="Next"
           onClick={() => slide(1)}
-          className="absolute right-2 top-1/2 z-20 -translate-y-1/2 grid h-12 w-12 place-content-center rounded-full bg-[#6d55d9] text-white shadow-lg hover:bg-[#FFB3A3] transition-all duration-300 hover:scale-110 hover:shadow-xl"
+          className="hidden md:grid absolute right-2 top-1/2 z-20 -translate-y-1/2 h-12 w-12 place-content-center rounded-full bg-[#6d55d9] text-white shadow-lg hover:bg-[#FFB3A3] transition-all duration-300 hover:scale-110 hover:shadow-xl"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden><path fill="currentColor" d="M9 5l7 7-7 7-1.4-1.4L14.2 12 7.6 6.4 9 5z"/></svg>
         </button>
 
         <div
           ref={scrollerRef}
-          className="scrollbar-none relative mx-auto max-w-7xl snap-x snap-mandatory overflow-x-auto px-4 pb-4 pt-2"
+          className="scrollbar-none relative mx-auto max-w-7xl snap-x snap-mandatory overflow-x-auto pl-4 pr-0 pb-4 pt-2 flex-1"
         >
-          <div className="flex gap-8 pr-8">
+          <div className="flex gap-4 sm:gap-6 md:gap-8 pr-4">
             {services.map((s, i) => (
               <article
                 key={s.title}
                 data-slide
-                className="group snap-start shrink-0 w-[90%] sm:w-[70%] md:w-[48%] xl:w-[32%]"
+                className="group snap-start shrink-0 w-[85%] sm:w-[75%] md:w-[48%] xl:w-[32%]"
               >
                 <div className="relative h-full pb-8">
                   <div className="h-60 overflow-hidden rounded-3xl">
@@ -196,6 +197,7 @@ export default function ServicesCarousel() {
               const scroller = scrollerRef.current;
               if (!scroller) return;
               const el = scroller.querySelectorAll<HTMLElement>("[data-slide]")[i];
+              // Adjust scroll position to account for left padding
               if (el) scroller.scrollTo({ left: el.offsetLeft - 16, behavior: "smooth" });
               setActive(i);
             }}
@@ -205,6 +207,24 @@ export default function ServicesCarousel() {
             }
           />
         ))}
+      </div>
+
+      {/* Mobile Arrow Buttons - Below carousel */}
+      <div className="md:hidden mt-6 flex justify-center gap-4">
+        <button
+          aria-label="Previous"
+          onClick={() => slide(-1)}
+          className="grid h-12 w-12 place-content-center rounded-full bg-white shadow-lg text-[#2c254c] hover:text-[#6d55d9] transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-transparent hover:border-[#6d55d9]/20"
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden><path fill="currentColor" d="M15 19l-7-7 7-7 1.4 1.4L10.8 12l5.6 5.6L15 19z"/></svg>
+        </button>
+        <button
+          aria-label="Next"
+          onClick={() => slide(1)}
+          className="grid h-12 w-12 place-content-center rounded-full bg-[#6d55d9] text-white shadow-lg hover:bg-[#FFB3A3] transition-all duration-300 hover:scale-110 hover:shadow-xl"
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden><path fill="currentColor" d="M9 5l7 7-7 7-1.4-1.4L14.2 12 7.6 6.4 9 5z"/></svg>
+        </button>
       </div>
 
       {/* CTA buttons */}

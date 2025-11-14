@@ -2,29 +2,29 @@ import React from "react";
 
 export default function TopBar() {
   return (
-    <div className="w-full bg-[#efe9fb] text-sm text-[#3b3060]">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 flex-wrap gap-2 md:gap-0">
-        <div className="flex flex-wrap items-center gap-3 md:gap-6 text-xs md:text-sm">
-          <div className="flex items-center gap-2">
-            <span className="text-xs">✉️</span>
+    <div className="hidden md:block w-full bg-gradient-to-r from-[#efe9fb] to-[#f5f2fc] text-sm text-[#3b3060] border-b border-purple-200/50">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 flex-wrap gap-3 md:gap-0">
+        <div className="flex flex-wrap items-center gap-4 md:gap-8 text-sm md:text-base font-monorope font-semibold">
+          <div className="flex items-center gap-2 hover:text-[#6d55d9] transition-colors duration-300">
+            <span className="text-lg">✉️</span>
             <a href="mailto:contact@elderlycare.com" className="hover:underline truncate">
               contact@elderlycare.com
             </a>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs">📞</span>
+          <div className="flex items-center gap-2 hover:text-[#6d55d9] transition-colors duration-300">
+            <span className="text-lg">📞</span>
             <a href="tel:2534561189" className="hover:underline whitespace-nowrap">
               (253) 456 - 1189
             </a>
           </div>
         </div>
-        <div className="flex items-center gap-3 md:gap-4 text-[#4c3c88]">
+        <div className="flex items-center gap-5 md:gap-6 text-[#4c3c88]">
           {socialIcons.map(icon => (
             <a
               key={icon.label}
               href={icon.href}
               aria-label={icon.label}
-              className="transition-colors hover:text-[#6d55d9]"
+              className="transition-all duration-300 hover:text-[#6d55d9] hover:scale-110"
             >
               {icon.svg}
             </a>
@@ -35,7 +35,7 @@ export default function TopBar() {
   );
 }
 
-const iconClass = "h-4 w-4 fill-current";
+const iconClass = "h-5 w-5 fill-current";
 
 const socialIcons = [
   {

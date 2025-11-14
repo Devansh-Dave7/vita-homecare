@@ -7,3 +7,27 @@
 .group:hover .service-image {
   transform: scale(1.05);
 }
+
+/* Hide scrollbar */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth scroll behavior for carousel */
+.scrollbar-none {
+  scroll-behavior: smooth;
+  scroll-padding-left: 1rem;
+}
+
+/* Ensure proper spacing on mobile devices */
+@media (max-width: 768px) {
+  .scrollbar-none {
+    scroll-padding-left: 1rem;
+    scroll-padding-right: 1rem;
+  }
+}
