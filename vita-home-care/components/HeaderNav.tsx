@@ -27,16 +27,16 @@ export default function HeaderNav() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6">
         <div className="flex items-center gap-3">
           <Logo />
-          <span className="font-monorope font-bold text-2xl tracking-tight text-[#2c254c]">Vita Homecare</span>
+          <span className="font-monorope font-bold text-2xl tracking-tight text-[#142a66]">Vita Homecare</span>
         </div>
         
         {/* Desktop Navigation */}
-        <nav aria-label="Main" className="hidden md:flex items-center gap-10 text-base font-monorope font-semibold text-[#3e3566]">
+        <nav aria-label="Main" className="hidden md:flex items-center gap-10 text-base font-monorope font-semibold text-[#11296b]">
           {navItems.map(item => {
             if (item === "Services") {
-              return <Link key={item} href="/services" className="hover:text-[#6d55d9] transition-colors duration-300">{item}</Link>;
+              return <Link key={item} href="/services" className="hover:text-[#2563eb] transition-colors duration-300">{item}</Link>;
             } else {
-              return <a key={item} href="#" className="hover:text-[#6d55d9] transition-colors duration-300">{item}</a>;
+              return <a key={item} href="#" className="hover:text-[#2563eb] transition-colors duration-300">{item}</a>;
             }
           })}
         </nav>
@@ -44,7 +44,7 @@ export default function HeaderNav() {
         {/* Mobile Menu Button */}
         <button
           onClick={toggleMobileMenu}
-          className="md:hidden p-2 text-[#3e3566] hover:text-[#6d55d9] focus:outline-none"
+          className="md:hidden p-2 text-[#11296b] hover:text-[#2563eb] focus:outline-none"
           aria-label="Toggle menu"
           aria-expanded={isMobileMenuOpen}
         >
@@ -77,7 +77,7 @@ export default function HeaderNav() {
                 <Link
                   key={item}
                   href="/services"
-                  className="block py-3 text-base font-monorope font-semibold text-[#3e3566] hover:text-[#6d55d9] transition-colors"
+                  className="block py-3 text-base font-monorope font-semibold text-[#1e3a8a] hover:text-[#2563eb] transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item}
@@ -88,7 +88,7 @@ export default function HeaderNav() {
                 <a
                   key={item}
                   href="#"
-                  className="block py-3 text-base font-monorope font-semibold text-[#3e3566] hover:text-[#6d55d9] transition-colors"
+                  className="block py-3 text-base font-monorope font-semibold text-[#1e3a8a] hover:text-[#2563eb] transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item}
@@ -104,7 +104,7 @@ export default function HeaderNav() {
 
 function Logo() {
   return (
-  <div className="h-8 w-8 rounded-full bg-linear-to-br from-[#a78bfa] to-[#6d55d9] flex items-center justify-center">
+  <div className="h-8 w-8 rounded-full bg-linear-to-br from-[#93c5fd] to-[#2563eb] flex items-center justify-center">
       <svg viewBox="0 0 24 24" className="h-5 w-5 text-white" aria-hidden="true">
         <path
           fill="currentColor"

@@ -89,7 +89,7 @@ export default function TestimonialsSection() {
         <div className="hidden lg:flex absolute left-0 right-0 top-1/2 -translate-y-1/2 w-full items-center justify-between pointer-events-none z-10">
           <button
             onClick={handlePrevious}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#6d55d9] shadow-lg hover:bg-[#f5f3ff] focus:outline-none focus:ring-2 focus:ring-[#6d55d9] focus:ring-offset-2 transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-transparent hover:border-[#6d55d9]/20 pointer-events-auto ml-8"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#2563eb] shadow-lg hover:bg-[#e6f0ff] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:ring-offset-2 transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-transparent hover:border-[#2563eb]/20 pointer-events-auto ml-8"
             aria-label="Previous testimonial"
           >
             <svg
@@ -107,7 +107,7 @@ export default function TestimonialsSection() {
           </button>
           <button
             onClick={handleNext}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-[#6d55d9] text-white shadow-lg hover:bg-[#FFB3A3] focus:outline-none focus:ring-2 focus:ring-[#6d55d9] focus:ring-offset-2 transition-all duration-300 hover:scale-110 hover:shadow-xl pointer-events-auto mr-8"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-[#2563eb] text-white shadow-lg hover:bg-[#1e40af] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:ring-offset-2 transition-all duration-300 hover:scale-110 hover:shadow-xl pointer-events-auto mr-8"
             aria-label="Next testimonial"
           >
             <svg
@@ -127,11 +127,11 @@ export default function TestimonialsSection() {
 
         {/* Testimonial Card */}
         <div className="relative mx-auto max-w-5xl w-full">
-          <div className="relative overflow-hidden rounded-[32px] shadow-[0_25px_60px_-20px_rgba(93,70,176,0.35)]">
+            <div className="relative overflow-hidden rounded-[32px] shadow-[0_25px_60px_-20px_rgba(37,99,235,0.35)]">
             {/* Responsive background - vertical split on mobile (white top, colored bottom), horizontal split on desktop */}
             <div className="absolute inset-0 flex flex-col lg:flex-row">
               <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white" />
-              <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-[#f5f3ff]" />
+              <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-[#e6f0ff]" />
             </div>
 
             {/* Content */}
@@ -144,7 +144,7 @@ export default function TestimonialsSection() {
                   height="48"
                   viewBox="0 0 48 48"
                   fill="none"
-                  className="mb-6 text-[#6d55d9]"
+                  className="mb-6 text-[#2563eb]"
                 >
                   <path
                     d="M12 28C12 24.686 14.686 22 18 22V18C12.477 18 8 22.477 8 28V34C8 36.209 9.791 38 12 38H18C20.209 38 22 36.209 22 34V28C22 25.791 20.209 24 18 24H14C14 22.895 14.895 22 16 22H18V18H16C13.791 18 12 19.791 12 22V28Z"
@@ -166,7 +166,7 @@ export default function TestimonialsSection() {
                   <h3 className="text-xl font-semibold text-[#2c254c]">
                     {currentTestimonial.name}
                   </h3>
-                  <p className="mt-1 text-sm text-[#6d55d9]">
+                  <p className="mt-1 text-sm text-[#2563eb]">
                     {currentTestimonial.location}
                   </p>
                 </div>
@@ -174,7 +174,7 @@ export default function TestimonialsSection() {
 
               {/* Image - Bottom on mobile, Right on desktop */}
               <div className="flex items-center justify-center lg:justify-end order-2 lg:order-2">
-                <div className="relative h-[300px] md:h-[350px] lg:h-[400px] w-full max-w-[340px] overflow-hidden rounded-[24px] shadow-[0_20px_50px_-15px_rgba(93,70,176,0.4)]">
+                <div className="relative h-[300px] md:h-[350px] lg:h-[400px] w-full max-w-[340px] overflow-hidden rounded-[24px] shadow-[0_20px_50px_-15px_rgba(37,99,235,0.4)]">
                   <img
                     src={currentTestimonial.image}
                     alt={`${currentTestimonial.name} - ${currentTestimonial.attribution}`}
@@ -190,7 +190,7 @@ export default function TestimonialsSection() {
         <div className="flex lg:hidden items-center justify-center gap-4 mt-8">
           <button
             onClick={handlePrevious}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#6d55d9] shadow-lg hover:bg-[#f5f3ff] focus:outline-none focus:ring-2 focus:ring-[#6d55d9] focus:ring-offset-2 transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-transparent hover:border-[#6d55d9]/20"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#2563eb] shadow-lg hover:bg-[#e6f0ff] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:ring-offset-2 transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-transparent hover:border-[#2563eb]/20"
             aria-label="Previous testimonial"
           >
             <svg
@@ -208,7 +208,7 @@ export default function TestimonialsSection() {
           </button>
           <button
             onClick={handleNext}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-[#6d55d9] text-white shadow-lg hover:bg-[#FFB3A3] focus:outline-none focus:ring-2 focus:ring-[#6d55d9] focus:ring-offset-2 transition-all duration-300 hover:scale-110 hover:shadow-xl"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-[#2563eb] text-white shadow-lg hover:bg-[#1e40af] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:ring-offset-2 transition-all duration-300 hover:scale-110 hover:shadow-xl"
             aria-label="Next testimonial"
           >
             <svg
@@ -231,7 +231,7 @@ export default function TestimonialsSection() {
       <div className="mt-12 text-center px-4 md:px-8">
         <a
           href="#plans"
-          className="inline-block rounded-full bg-[#6d55d9] px-8 py-4 text-sm font-semibold text-white shadow-lg hover:bg-[#FFB3A3] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6d55d9] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl"
+          className="inline-block rounded-full bg-[#2563eb] px-8 py-4 text-sm font-semibold text-white shadow-lg hover:bg-[#1e40af] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563eb] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl"
         >
           Browse plans
         </a>

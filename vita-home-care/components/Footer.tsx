@@ -3,14 +3,14 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-gradient-to-b from-[#efe9fb] to-[#e5dcf8] border-t border-[#d4c7f0]">
+    <footer className="w-full bg-gradient-to-b from-[#e6f0ff] to-[#f0f6ff] border-t border-[#dbeafe]">
       <div className="mx-auto max-w-7xl px-4 py-12">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-items-center text-center">
           
           {/* Phone Section */}
           <div className="flex flex-col items-center gap-3">
-            <div className="h-16 w-16 rounded-full bg-[#6d55d9] flex items-center justify-center shadow-lg">
+            <div className="h-16 w-16 rounded-full bg-[#1d57d4] flex items-center justify-center shadow-lg">
               <svg 
                 viewBox="0 0 24 24" 
                 className="h-8 w-8 fill-white"
@@ -22,7 +22,7 @@ export default function Footer() {
             <div>
               <a 
                 href="tel:02393694551" 
-                className="text-2xl font-bold text-[#2c254c] hover:text-[#6d55d9] transition-colors duration-300"
+                className="text-2xl font-bold text-[#2c254c] hover:text-[#2563eb] transition-colors duration-300"
               >
                 +44 1234567890
               </a>
@@ -42,7 +42,7 @@ export default function Footer() {
               />
             </div>
             <div className="flex flex-col items-center gap-1">
-              <div className="h-16 w-16 rounded-full bg-[#6d55d9] flex items-center justify-center shadow-lg mb-3">
+              <div className="h-16 w-16 rounded-full bg-[#1d57d4] flex items-center justify-center shadow-lg mb-3">
                 <svg 
                   viewBox="0 0 24 24" 
                   className="h-8 w-8 fill-white"
@@ -62,7 +62,7 @@ export default function Footer() {
 
           {/* Email Section */}
           <div className="flex flex-col items-center gap-3">
-            <div className="h-16 w-16 rounded-full bg-[#6d55d9] flex items-center justify-center shadow-lg">
+            <div className="h-16 w-16 rounded-full bg-[#1d57d4] flex items-center justify-center shadow-lg">
               <svg 
                 viewBox="0 0 24 24" 
                 className="h-8 w-8 fill-white"
@@ -74,7 +74,7 @@ export default function Footer() {
             <div>
               <a 
                 href="mailto:info@vitahomecare.com" 
-                className="text-lg font-semibold text-[#2c254c] hover:text-[#6d55d9] transition-colors duration-300 break-all"
+                className="text-lg font-semibold text-[#2c254c] hover:text-[#2563eb] transition-colors duration-300 break-all"
               >
                 info@vitahomecare.com
               </a>
@@ -84,7 +84,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Copyright Bar */}
-        <div className="mt-12 pt-6 border-t border-[#d4c7f0]">
+        <div className="mt-12 pt-6 border-t border-[#dbeafe]">
           <p className="text-center text-sm text-[#4a435d]">
             © {new Date().getFullYear()} Astercare. All rights reserved. | Care Without Compromise
           </p>

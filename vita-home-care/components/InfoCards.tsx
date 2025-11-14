@@ -4,12 +4,12 @@ export default function InfoCards() {
   return (
     <div className="relative z-10 -mt-32 pb-20">
       <div className="mx-auto w-full max-w-7xl px-4">
-        <div className="rounded-2xl border border-[#ece7f9] bg-white/95 shadow-[0_20px_60px_-15px_rgba(93,70,176,0.25)] backdrop-blur supports-[backdrop-filter]:bg-white">
-          <div className="grid divide-y divide-[#e9e3f7] md:grid-cols-3 md:divide-x md:divide-y-0">
+        <div className="rounded-2xl border border-[#dbeafe] bg-white/95 shadow-[0_20px_60px_-15px_rgba(37,99,235,0.25)] backdrop-blur supports-[backdrop-filter]:bg-white">
+          <div className="grid divide-y divide-[#dbeafe] md:grid-cols-3 md:divide-x md:divide-y-0">
             {cards.map(card => (
               <div key={card.title} className="flex flex-col gap-6 p-10 md:p-12">
                 <div className="flex items-center gap-5">
-                  <span className="grid h-16 w-16 place-content-center rounded-2xl bg-gradient-to-br from-[#efe9fb] to-[#f5f2fc] text-[#6d55d9] shadow-lg">
+                  <span className="grid h-16 w-16 place-content-center rounded-2xl bg-gradient-to-br from-[#e6f0ff] to-[#f2f7ff] text-[#2563eb] shadow-lg">
                     {card.icon}
                   </span>
                   <div>
@@ -19,7 +19,7 @@ export default function InfoCards() {
                 </div>
                 <a
                   href={card.href}
-                  className="mt-auto inline-flex items-center gap-3 text-base font-monorope font-bold text-[#6d55d9] hover:text-[#FFB3A3] transition-all duration-300 group hover:scale-105"
+                  className="mt-auto inline-flex items-center gap-3 text-base font-monorope font-bold text-[#1450d1] hover:text-[#3e5ab7] transition-all duration-300 group hover:scale-105"
                 >
                   {card.cta}
                   <svg viewBox="0 0 24 24" className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
