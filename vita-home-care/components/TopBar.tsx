@@ -2,29 +2,29 @@ import React from "react";
 
 export default function TopBar() {
   return (
-    <div className="hidden md:block w-full bg-gradient-to-r from-[#efe9fb] to-[#f5f2fc] text-sm text-[#3b3060] border-b border-purple-200/50">
+    <div className="hidden md:block w-full bg-gradient-to-r from-[#e6f0ff] to-[#f2f7ff] text-sm text-[#1e3a8a] border-b border-blue-200/50">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 flex-wrap gap-3 md:gap-0">
         <div className="flex flex-wrap items-center gap-4 md:gap-8 text-sm md:text-base font-monorope font-semibold">
-          <div className="flex items-center gap-2 hover:text-[#6d55d9] transition-colors duration-300">
+          <div className="flex items-center gap-2 hover:text-[#2563eb] transition-colors duration-300">
             <span className="text-lg">✉️</span>
             <a href="mailto:contact@elderlycare.com" className="hover:underline truncate">
               contact@elderlycare.com
             </a>
           </div>
-          <div className="flex items-center gap-2 hover:text-[#6d55d9] transition-colors duration-300">
+          <div className="flex items-center gap-2 hover:text-[#2563eb] transition-colors duration-300">
             <span className="text-lg">📞</span>
             <a href="tel:2534561189" className="hover:underline whitespace-nowrap">
               (253) 456 - 1189
             </a>
           </div>
         </div>
-        <div className="flex items-center gap-5 md:gap-6 text-[#4c3c88]">
+        <div className="flex items-center gap-5 md:gap-6 text-[#1e40af]">
           {socialIcons.map(icon => (
             <a
               key={icon.label}
               href={icon.href}
               aria-label={icon.label}
-              className="transition-all duration-300 hover:text-[#6d55d9] hover:scale-110"
+              className="transition-all duration-300 hover:text-[#2563eb] hover:scale-110"
             >
               {icon.svg}
             </a>
