@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+// Use plain <img> for SVGs instead of next/image
 
 export default function Footer() {
   return (
@@ -32,13 +32,10 @@ export default function Footer() {
           {/* Logo and Address Section */}
           <div className="flex flex-col items-center gap-4">
             <div className="mb-2">
-              <Image
-                src="/logo.jpg"
-                alt="Astercare - Care Without Compromise"
-                width={200}
-                height={60}
-                className="h-auto w-auto max-w-[200px]"
-                priority
+              <img
+                src="/new logo 3.svg"
+                alt="Vita Homecare"
+                className="w-auto h-10 sm:h-12 md:h-14 max-w-[200px]"
               />
             </div>
             <div className="flex flex-col items-center gap-1">

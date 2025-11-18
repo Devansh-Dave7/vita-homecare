@@ -1,28 +1,42 @@
 "use client";
 import { useState } from "react";
 
-const testimonials = [
+interface Testimonial {
+  quote: string;
+  name: string;
+  location: string;
+  image: string;
+  attribution: string;
+}
+
+const testimonials: Testimonial[] = [
   {
-    quote: "Elit amet enim, pretium consequat lectus odio ut sed enim at level adipiscing orci sed aliquam craset, gravida elementum non egestas.",
-    name: "John Carter",
-    location: "Seattle, CA",
-    image: "https://images.unsplash.com/photo-1444069069008-83a57aac43ac?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHwxfHxlbGRlcmx5JTIwbWFuJTIwd2hpdGUlMjBiZWFyZCUyMHBvcnRyYWl0JTIwaGVhZHNob3R8ZW58MHwxfHx8MTc2Mjk2NjM4MXww&ixlib=rb-4.1.0&q=85",
-    attribution: "Angelina Litvin on Unsplash"
+    quote:
+      "The support and kindness from the caregivers has made a real difference. We feel at ease knowing our loved one is in great hands.",
+    name: "Emily Thompson",
+    location: "Seattle, WA",
+    image:
+      "/testimonial1.jpg",
+    attribution: "Angelina Litvin on Unsplash",
   },
   {
-    quote: "The care and attention provided has been exceptional. Our family feels supported and confident in the quality of service.",
+    quote:
+      "The care and attention provided has been exceptional. Our family feels supported and confident in the quality of service.",
     name: "Sarah Mitchell",
     location: "Portland, OR",
-    image: "https://images.unsplash.com/photo-1668621819576-e5a92bcd7e15?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHwyfHxlbGRlcmx5JTIwbWFuJTIwd2hpdGUlMjBiZWFyZCUyMHBvcnRyYWl0JTIwaGVhZHNob3R8ZW58MHwxfHx8MTc2Mjk2NjM4MXww&ixlib=rb-4.1.0&q=85",
-    attribution: "Tom Morbey on Unsplash"
+    image:
+      "/testimonial2.jpg",
+    attribution: "Tom Morbey on Unsplash",
   },
   {
-    quote: "Professional, compassionate, and reliable. The team has made such a positive difference in our daily lives.",
+    quote:
+      "Professional, compassionate, and reliable. The team has made such a positive difference in our daily lives.",
     name: "Michael Roberts",
     location: "San Francisco, CA",
-    image: "https://images.unsplash.com/photo-1662408447260-607a5bfea42a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHw4fHxlbGRlcmx5JTIwbWFuJTIwd2hpdGUlMjBiZWFyZCUyMHBvcnRyYWl0JTIwaGVhZHNob3R8ZW58MHwxfHx8MTc2Mjk2NjM4MXww&ixlib=rb-4.1.0&q=85",
-    attribution: "Matin Hosseini on Unsplash"
-  }
+    image:
+      "/testimonial3.jpg",
+    attribution: "Matin Hosseini on Unsplash",
+  },
 ];
 
 export default function TestimonialsSection() {
@@ -127,7 +141,7 @@ export default function TestimonialsSection() {
 
         {/* Testimonial Card */}
         <div className="relative mx-auto max-w-5xl w-full">
-            <div className="relative overflow-hidden rounded-[32px] shadow-[0_25px_60px_-20px_rgba(37,99,235,0.35)]">
+            <div className="relative overflow-hidden rounded-4xl shadow-[0_25px_60px_-20px_rgba(37,99,235,0.35)]">
             {/* Responsive background - vertical split on mobile (white top, colored bottom), horizontal split on desktop */}
             <div className="absolute inset-0 flex flex-col lg:flex-row">
               <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white" />
@@ -174,7 +188,7 @@ export default function TestimonialsSection() {
 
               {/* Image - Bottom on mobile, Right on desktop */}
               <div className="flex items-center justify-center lg:justify-end order-2 lg:order-2">
-                <div className="relative h-[300px] md:h-[350px] lg:h-[400px] w-full max-w-[340px] overflow-hidden rounded-[24px] shadow-[0_20px_50px_-15px_rgba(37,99,235,0.4)]">
+                <div className="relative h-[300px] md:h-[350px] lg:h-[400px] w-full max-w-[340px] overflow-hidden rounded-3xl shadow-[0_20px_50px_-15px_rgba(37,99,235,0.4)]">
                   <img
                     src={currentTestimonial.image}
                     alt={`${currentTestimonial.name} - ${currentTestimonial.attribution}`}
@@ -230,7 +244,7 @@ export default function TestimonialsSection() {
       {/* Browse Plans Button */}
       <div className="mt-12 text-center px-4 md:px-8">
         <a
-          href="#plans"
+          href="/inquiry"
           className="inline-block rounded-full bg-[#2563eb] px-8 py-4 text-sm font-semibold text-white shadow-lg hover:bg-[#1e40af] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563eb] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl"
         >
           Browse plans

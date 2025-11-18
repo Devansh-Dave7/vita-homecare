@@ -24,27 +24,41 @@ export default function HeaderNav() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white backdrop-blur supports-backdrop-filter:bg-white/95 shadow-lg border-b border-gray-200/50">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6">
-        <div className="flex items-center gap-3">
-          <Logo />
-          <span className="font-monorope font-bold text-2xl tracking-tight text-[#142a66]">Vita Homecare</span>
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 overflow-x-hidden">
+        <div className="flex items-center gap-3 shrink-0">
+          <Link href="/" className="inline-block shrink-0">
+            <img
+              src="/new logo 3.svg"
+              alt="Vita Homecare"
+              className="w-auto h-8 sm:h-10 md:h-14 lg:h-16"
+              style={{ minWidth: '120px', maxWidth: '100%' }}
+            />
+          </Link>
         </div>
         
         {/* Desktop Navigation */}
-        <nav aria-label="Main" className="hidden md:flex items-center gap-10 text-base font-monorope font-semibold text-[#11296b]">
+        <nav aria-label="Main" className="hidden md:flex items-center gap-10 text-base font-onest font-semibold text-[#11296b]">
           {navItems.map(item => {
+            if (item === "Home") {
+              return <Link key={item} href="/" className="hover:text-[#2563eb] transition-colors duration-300">{item}</Link>;
+            }
+            if (item === "About") {
+              return <Link key={item} href="/about" className="hover:text-[#2563eb] transition-colors duration-300">{item}</Link>;
+            }
             if (item === "Services") {
               return <Link key={item} href="/services" className="hover:text-[#2563eb] transition-colors duration-300">{item}</Link>;
-            } else {
-              return <a key={item} href="#" className="hover:text-[#2563eb] transition-colors duration-300">{item}</a>;
             }
+            if (item === "Contact Us") {
+              return <Link key={item} href="/contact" className="hover:text-[#2563eb] transition-colors duration-300">{item}</Link>;
+            }
+            return <a key={item} href="#" className="hover:text-[#2563eb] transition-colors duration-300">{item}</a>;
           })}
         </nav>
 
         {/* Mobile Menu Button */}
         <button
           onClick={toggleMobileMenu}
-          className="md:hidden p-2 text-[#11296b] hover:text-[#2563eb] focus:outline-none"
+          className="md:hidden p-2 text-[#11296b] hover:text-[#2563eb] focus:outline-none shrink-0"
           aria-label="Toggle menu"
           aria-expanded={isMobileMenuOpen}
         >
@@ -72,46 +86,68 @@ export default function HeaderNav() {
           isMobileMenuOpen ? 'translate-y-0' : '-translate-y-4'
         }`}>
           {navItems.map(item => {
-            if (item === "Services") {
+            if (item === "Home") {
               return (
                 <Link
                   key={item}
-                  href="/services"
-                  className="block py-3 text-base font-monorope font-semibold text-[#1e3a8a] hover:text-[#2563eb] transition-colors"
+                  href="/"
+                  className="block py-3 text-base font-onest font-semibold text-[#1e3a8a] hover:text-[#2563eb] transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item}
                 </Link>
               );
-            } else {
+            }
+            if (item === "About") {
               return (
-                <a
+                <Link
                   key={item}
-                  href="#"
-                  className="block py-3 text-base font-monorope font-semibold text-[#1e3a8a] hover:text-[#2563eb] transition-colors"
+                  href="/about"
+                  className="block py-3 text-base font-onest font-semibold text-[#1e3a8a] hover:text-[#2563eb] transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item}
-                </a>
+                </Link>
               );
             }
+            if (item === "Services") {
+              return (
+                <Link
+                  key={item}
+                  href="/services"
+                  className="block py-3 text-base font-onest font-semibold text-[#1e3a8a] hover:text-[#2563eb] transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item}
+                </Link>
+              );
+            }
+            if (item === "Contact Us") {
+              return (
+                <Link
+                  key={item}
+                  href="/contact"
+                  className="block py-3 text-base font-onest font-semibold text-[#1e3a8a] hover:text-[#2563eb] transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item}
+                </Link>
+              );
+            }
+            return (
+              <a
+                key={item}
+                href="#"
+                className="block py-3 text-base font-onest font-semibold text-[#1e3a8a] hover:text-[#2563eb] transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {item}
+              </a>
+            );
           })}
         </div>
       </nav>
     </header>
-  );
-}
-
-function Logo() {
-  return (
-  <div className="h-8 w-8 rounded-full bg-linear-to-br from-[#93c5fd] to-[#2563eb] flex items-center justify-center">
-      <svg viewBox="0 0 24 24" className="h-5 w-5 text-white" aria-hidden="true">
-        <path
-          fill="currentColor"
-          d="M12 2l2.6 5.3L20 8.2l-4 3.9.9 5.6L12 15.9l-4.9 1.8.9-5.6-4-3.9 5.4-.9L12 2z"
-        />
-      </svg>
-    </div>
   );
 }
 

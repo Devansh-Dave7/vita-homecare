@@ -4,17 +4,17 @@ export default function TopBar() {
   return (
     <div className="hidden md:block w-full bg-gradient-to-r from-[#e6f0ff] to-[#f2f7ff] text-sm text-[#1e3a8a] border-b border-blue-200/50">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 flex-wrap gap-3 md:gap-0">
-        <div className="flex flex-wrap items-center gap-4 md:gap-8 text-sm md:text-base font-monorope font-semibold">
+        <div className="flex flex-wrap items-center gap-4 md:gap-8 text-sm md:text-base font-onest font-semibold">
           <div className="flex items-center gap-2 hover:text-[#2563eb] transition-colors duration-300">
             <span className="text-lg">✉️</span>
             <a href="mailto:contact@elderlycare.com" className="hover:underline truncate">
-              contact@elderlycare.com
+              contact@vitahomecare.com
             </a>
           </div>
           <div className="flex items-center gap-2 hover:text-[#2563eb] transition-colors duration-300">
             <span className="text-lg">📞</span>
             <a href="tel:2534561189" className="hover:underline whitespace-nowrap">
-              (253) 456 - 1189
+              +44 7542 532477
             </a>
           </div>
         </div>

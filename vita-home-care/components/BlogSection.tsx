@@ -7,7 +7,7 @@ const blogPosts = [
     category: "Articles",
     title: "10 Great activities to do with you grandchildren",
     date: "Nov 7, 2023",
-    image: "https://images.unsplash.com/photo-1670251684279-67cc41b1758c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHw5fHxlbGRlcmx5JTIwd29tYW4lMjBjYXJlZ2l2ZXIlMjBjb252ZXJzYXRpb24lMjBoZWFsdGhjYXJlfGVufDB8MHx8fDE3NjI5NzA0OTF8MA&ixlib=rb-4.1.0&q=85",
+    image: "blog1.jpg",
     attribution: "mali desha on Unsplash",
     photographerUrl: "https://unsplash.com/@malidesha"
   },
@@ -16,7 +16,7 @@ const blogPosts = [
     category: "Resources",
     title: "How to keep your marriage strong while caregiving",
     date: "Nov 7, 2023",
-    image: "https://images.unsplash.com/photo-1758686253706-5d45c46112f0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHwxfHxlbGRlcmx5JTIwY291cGxlJTIwc2VuaW9yJTIwcG9ydHJhaXQlMjBoYXBweSUyMHNlbmlvcnN8ZW58MHwwfHx8MTc2Mjk3MDQ5MXww&ixlib=rb-4.1.0&q=85",
+    image: "blog2.jpg",
     attribution: "Vitaly Gariev on Unsplash",
     photographerUrl: "https://unsplash.com/@silverkblack"
   },
@@ -25,7 +25,7 @@ const blogPosts = [
     category: "News",
     title: "Best vitamin B12 supplement brands for older adults",
     date: "Nov 6, 2023",
-    image: "https://images.unsplash.com/photo-1686052401814-d0430982f8f4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHwyfHxjYXJlZ2l2ZXIlMjBlbGRlcmx5JTIwcGVyc29uJTIwd2Fsa2VyJTIwaG9tZSUyMGNhcmV8ZW58MHwwfHx8MTc2Mjk3MDQ5MXww&ixlib=rb-4.1.0&q=85",
+    image: "blog3.jpg",
     attribution: "Ernst-Günther Krause (NID) on Unsplash",
     photographerUrl: "https://unsplash.com/@nichtraucherinitiative"
   }

@@ -4,13 +4,14 @@ import Hero from "../components/Hero";
 import InfoCards from "../components/InfoCards";
 import ServicesGrid from "../components/ServicesGrid";
 import WhyChooseUs from "../components/WhyChooseUs";
-import TestimonialsSection from "../components/TestimonialsSection";
+import Link from "next/link";
+// import TestimonialsSection from "../components/TestimonialsSection";
 import BlogSection from "../components/BlogSection";
 import Footer from "../components/Footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white text-[#2c254c] font-sans">
+    <main className="min-h-screen bg-white text-[#2c254c] font-onest overflow-x-hidden">
       <TopBar />
       <HeaderNav />
       <Hero />
@@ -30,17 +31,34 @@ export default function Home() {
         </div>
         <div className="mt-12 sm:mt-16 md:mt-20 mx-auto max-w-7xl px-4 md:px-8">
           <ServicesGrid />
+          <div className="mt-12 flex justify-center">
+            <Link
+              href="/inquiry"
+              className="inline-flex items-center rounded-full bg-[#2563eb] px-6 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-[#1d4ed8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2563eb]"
+            >
+              Discuss pricing and care options
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* Why Choose Us section */}
       <WhyChooseUs />
 
-      {/* Testimonials section */}
-      <TestimonialsSection />
+      {/* Testimonials section (temporarily disabled for localization) */}
+      {/** <TestimonialsSection /> */}
 
       {/* Blog section */}
       <BlogSection />
+
+      {/* Non-medical care disclaimer */}
+      <section className="bg-white py-8 text-center text-xs text-[#6b7280] px-4">
+        <p className="mx-auto max-w-3xl">
+          Vita Homecare provides non-medical home care services delivered by healthcare assistants and nurse assistants.
+          We do not offer clinical nursing procedures or hospital-level treatment; all medical decisions remain with your
+          doctor or hospital team.
+        </p>
+      </section>
 
       {/* Footer */}
       <Footer />

@@ -15,7 +15,7 @@ const services: Service[] = [
     copy:
       "Bathing, grooming, dressing, and mobility support to help maintain independence and dignity with personalized assistance.",
     img:
-      "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1200&q=80",
+      "/personal care.jpg",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#2563eb]" aria-hidden>
         <path fill="currentColor" d="M12 2a4 4 0 110 8 4 4 0 010-8zm0 10c4.42 0 8 1.79 8 4v3H4v-3c0-2.21 3.58-4 8-4z" />
@@ -43,18 +43,6 @@ const services: Service[] = [
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#2563eb]" aria-hidden>
         <path fill="currentColor" d="M15 11H3v2h12v-2zm0-4H3v2h12V7zM3 16h12v-2H3v2zm13.5-3.5L22 9v9l-5.5-3.5z" />
-      </svg>
-    ),
-  },
-  {
-    title: "Flexible Scheduling",
-    copy:
-      "Hourly, daily, or 24-hour care options tailored to your specific needs and lifestyle requirements.",
-    img:
-      "https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=1200&q=80",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#2563eb]" aria-hidden>
-        <path fill="currentColor" d="M7 2v2H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2h-2V2h-2v2H9V2H7zm12 6H5v10h14V8z" />
       </svg>
     ),
   },
@@ -241,7 +229,7 @@ export default function ServicesCarousel() {
 
       {/* CTA buttons */}
       <div className="mt-10 flex items-center justify-center gap-4">
-        <a href="#plans" className="rounded-full bg-[#2563eb] px-8 py-4 text-sm font-semibold text-white shadow-lg hover:bg-[#1e40af] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563eb] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl">Browse plans</a>
+        <a href="/inquiry" className="rounded-full bg-[#2563eb] px-8 py-4 text-sm font-semibold text-white shadow-lg hover:bg-[#1e40af] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563eb] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl">Browse plans</a>
         <a href="#" className="rounded-full border-2 border-[#dbeafe] bg-white px-8 py-4 text-sm font-semibold text-[#2c254c] shadow-md hover:border-[#2563eb] hover:bg-[#e6f0ff] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">Browse services</a>
       </div>
     </div>

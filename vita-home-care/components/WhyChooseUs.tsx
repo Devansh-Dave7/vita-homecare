@@ -6,7 +6,7 @@ import React from "react";
 export default function WhyChooseUs() {
   const features: { title: string; icon: React.ReactNode }[] = [
     {
-      title: "24/7 Nursing Staff",
+      title: "24/7 home care support",
       icon: (
         <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#2563eb]" aria-hidden>
           <path
@@ -17,7 +17,7 @@ export default function WhyChooseUs() {
       ),
     },
     {
-      title: "Resident Care",
+      title: "Personal care at home",
       icon: (
         <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#2563eb]" aria-hidden>
           <path fill="currentColor" d="M12 12a4 4 0 100-8 4 4 0 000 8zm6 8H6v-1a5 5 0 015-5h2a5 5 0 015 5v1z" />
@@ -25,7 +25,7 @@ export default function WhyChooseUs() {
       ),
     },
     {
-      title: "Quality Support",
+      title: "Non-medical daily support",
       icon: (
         <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#2563eb]" aria-hidden>
           <path fill="currentColor" d="M12 17l-5.2 3 1-5.8-4.2-4.1 5.8-.8L12 4l2.6 5.3 5.8.8-4.2 4.1 1 5.8z" />
@@ -33,7 +33,7 @@ export default function WhyChooseUs() {
       ),
     },
     {
-      title: "Caring Staff",
+      title: "Trained care assistants",
       icon: (
         <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#2563eb]" aria-hidden>
           <path fill="currentColor" d="M12.1 21.3l-1.1-1C6.1 16.1 3 13.3 3 9.8 3 7.5 4.7 5.8 7 5.8c1.3 0 2.6.6 3.4 1.6.8-1 2.1-1.6 3.4-1.6 2.3 0 4 1.7 4 4 0 3.5-3.1 6.3-8 10.5l-1.1 1z" />
@@ -54,7 +54,7 @@ export default function WhyChooseUs() {
               {/* Image 1: top-left - elderly couple at laptop */}
               <div className="h-[250px] overflow-hidden rounded-[28px] shadow-[0_20px_45px_-25px_rgba(37,99,235,0.45)]">
                 <img
-                  src="https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1200&q=80"
+                  src="/personal care.jpg"
                   alt="Elderly couple using laptop together"
                   className="h-full w-full object-cover"
                 />
@@ -63,7 +63,7 @@ export default function WhyChooseUs() {
               {/* Image 2: bottom-left - woman with hat and flowers */}
               <div className="h-[250px] overflow-hidden rounded-[28px] shadow-[0_20px_45px_-25px_rgba(37,99,235,0.45)]">
                 <img
-                  src="https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=800&q=80"
+                  src="/companionship.jpg"
                   alt="Senior woman with hat holding flowers outdoors"
                   className="h-full w-full object-cover"
                 />
@@ -73,7 +73,7 @@ export default function WhyChooseUs() {
             {/* Right column - single large image */}
             <div className="h-full overflow-hidden rounded-[36px] shadow-[0_35px_70px_-35px_rgba(37,99,235,0.60)]">
               <img
-                src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80"
+                src="/domestic help.jpg"
                 alt="Elderly couple embracing warmly"
                 className="h-full w-full object-cover"
               />
@@ -93,8 +93,9 @@ export default function WhyChooseUs() {
             <br /> loved ones
           </h2>
           <p className="mt-5 max-w-xl text-base leading-7 text-[#4f4865]">
-            Semper cras condimentum habitasse amet, sit donec consequat scelerisque imperdiet sed
-            tincidunt ipsum fusce cras varius.
+            Our healthcare assistants and nurse assistants (not registered nurses) provide personal care, companionship,
+            and daily support. They assist with safe mobility, light domestic tasks, and medication reminders, helping
+            older adults live independently at home with non-medical support.
           </p>
 
           {/* Features grid */}
@@ -112,7 +113,7 @@ export default function WhyChooseUs() {
           {/* Buttons */}
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <a
-              href="#about"
+              href="/about"
               className="rounded-full bg-[#2563eb] px-8 py-4 text-sm font-semibold text-white shadow-lg hover:bg-[#1e40af] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563eb] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl"
             >
               More about us

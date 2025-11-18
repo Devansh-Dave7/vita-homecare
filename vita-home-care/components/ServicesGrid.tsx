@@ -1,23 +1,24 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 
 type Service = {
   title: string;
   copy: string;
   img: string;
   icon: React.ReactNode;
-  category: "Personal Care" | "Support" | "Scheduling";
+  category: "Personal Care" | "Support";
 };
 
-type CategoryType = "all" | "Personal Care" | "Support" | "Scheduling";
+type CategoryType = "all" | "Personal Care" | "Support";
 
 const services: Service[] = [
   {
     title: "Personal Care",
     copy:
-      "Bathing, grooming, dressing, and mobility support to help maintain independence and dignity with personalized assistance.",
+      "Bathing, grooming, dressing, toileting, and mobility support to help clients stay clean, comfortable, and independent at home.",
     img:
-      "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1200&q=80",
+      "/personal care.jpg",
     icon: (
       <svg viewBox="0 0 24 24" className="h-8 w-8 text-[#2563eb]" aria-hidden>
         <path fill="currentColor" d="M12 2a4 4 0 110 8 4 4 0 010-8zm0 10c4.42 0 8 1.79 8 4v3H4v-3c0-2.21 3.58-4 8-4z" />
@@ -28,9 +29,9 @@ const services: Service[] = [
   {
     title: "Domestic Help",
     copy:
-      "Professional housekeeping, meal preparation, laundry, and shopping services to keep your home comfortable and organized.",
+      "Housekeeping, meal preparation, laundry, and shopping so the home stays safe, tidy, and easy to live in.",
     img:
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&q=80",
+      "/domestic help.jpg",
     icon: (
       <svg viewBox="0 0 24 24" className="h-8 w-8 text-[#2563eb]" aria-hidden>
         <path fill="currentColor" d="M12 3l9 8h-2v9h-6v-6H11v6H5v-9H3l9-8z" />
@@ -39,11 +40,24 @@ const services: Service[] = [
     category: "Personal Care",
   },
   {
+    title: "Live-In Care",
+    copy:
+      "Continuous non-medical support in the client’s own home, with a care assistant living in.",
+    img:
+      "/live in care.jpg",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-8 w-8 text-[#2563eb]" aria-hidden>
+        <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
+    ),
+    category: "Personal Care",
+  },
+  {
     title: "Companionship",
     copy:
-      "Emotional support and social engagement to reduce loneliness and provide meaningful conversation and friendship.",
+      "Emotional support, conversation, and social engagement to reduce loneliness and keep clients connected to everyday life.",
     img:
-      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80",
+      "/companionship.jpg",
     icon: (
       <svg viewBox="0 0 24 24" className="h-8 w-8 text-[#2563eb]" aria-hidden>
         <path fill="currentColor" d="M15 11H3v2h12v-2zm0-4H3v2h12V7zM3 16h12v-2H3v2zm13.5-3.5L22 9v9l-5.5-3.5z" />
@@ -52,37 +66,11 @@ const services: Service[] = [
     category: "Support",
   },
   {
-    title: "Flexible Scheduling",
-    copy:
-      "Hourly, daily, or 24-hour care options tailored to your specific needs and lifestyle requirements.",
-    img:
-      "https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=1200&q=80",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-8 w-8 text-[#2563eb]" aria-hidden>
-        <path fill="currentColor" d="M7 2v2H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2h-2V2h-2v2H9V2H7zm12 6H5v10h14V8z" />
-      </svg>
-    ),
-    category: "Scheduling",
-  },
-  {
-    title: "Live-In Care",
-    copy:
-      "Continuous in-home support providing round-the-clock care and companionship in the comfort of your own home.",
-    img:
-      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-8 w-8 text-[#2563eb]" aria-hidden>
-        <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-      </svg>
-    ),
-    category: "Scheduling",
-  },
-  {
     title: "Transport & Escort",
     copy:
-      "Safe and reliable transportation services to appointments, social events, and other important destinations.",
+      "Safe transport and escort to appointments, church, family visits, and other important activities.",
     img:
-      "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=1200&q=80",
+      "/transport.jpg",
     icon: (
       <svg viewBox="0 0 24 24" className="h-8 w-8 text-[#2563eb]" aria-hidden>
         <path fill="currentColor" d="M18 8h-1V6c0-2.76-2.24-5-5-5s-5 2.24-5 5v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6-2c1.66 0 3 1.34 3 3v2h-6V9c0-1.66 1.34-3 3-3z" />
@@ -93,9 +81,9 @@ const services: Service[] = [
   {
     title: "Respite Care",
     copy:
-      "Family relief services that provide consistent client comfort, giving caregivers a well-deserved break.",
+      "Short-term cover that gives family caregivers a break while maintaining consistent comfort for the client.",
     img:
-      "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1200&q=80",
+      "respite care.jpg",
     icon: (
       <svg viewBox="0 0 24 24" className="h-8 w-8 text-[#2563eb]" aria-hidden>
         <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-2.12-2.66c-.3-.38-.85-.42-1.24-.12-.37.3-.42.84-.12 1.23l2.83 3.53c.3.38.84.39 1.23.09l3.46-4.46c.37-.48.09-1.18-.39-1.54-.46-.36-1.16-.15-1.52.38z" />
@@ -117,7 +105,6 @@ export default function ServicesGrid() {
     { id: "all", label: "All Services" },
     { id: "Personal Care", label: "Personal Care" },
     { id: "Support", label: "Support" },
-    { id: "Scheduling", label: "Scheduling" },
   ];
 
   return (
@@ -182,8 +169,22 @@ export default function ServicesGrid() {
               </p>
 
               {/* CTA Link */}
-              <a
-                href="#"
+              <Link
+                href={
+                  service.title === "Personal Care"
+                    ? "/services/personal-care-lusaka"
+                    : service.title === "Domestic Help"
+                    ? "/services/domestic-help-lusaka"
+                    : service.title === "Live-In Care"
+                    ? "/services/live-in-care-lusaka"
+                    : service.title === "Companionship"
+                    ? "/services/companionship-care-lusaka"
+                    : service.title === "Transport & Escort"
+                    ? "/services/transport-escort-lusaka"
+                    : service.title === "Respite Care"
+                    ? "/services/respite-care-lusaka"
+                    : "#"
+                }
                 className="inline-flex items-center gap-2 text-sm font-semibold text-[#2563eb] hover:text-[#1e40af] transition-all duration-300 group/link"
               >
                 Learn more
@@ -193,11 +194,111 @@ export default function ServicesGrid() {
                 >
                   <path fill="currentColor" d="M13 5l-1.4 1.4 4.2 4.1H5v2h10.8l-4.2 4.1L13 18l7-7-7-6z" />
                 </svg>
-              </a>
+              </Link>
             </div>
           </article>
         ))}
       </div>
+
+      {/* Our Specialisation subsection */}
+      {/* Specialisation list based on slides */}
+        <div className="mt-16 rounded-[32px] border border-[#e5e7eb] bg-white p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden">
+          {/* subtle background accent */}
+          <div className="pointer-events-none absolute inset-y-0 right-[-80px] w-64 bg-gradient-to-b from-[#eff6ff]/80 via-white to-[#eef2ff] opacity-70" />
+
+          <div className="relative z-10 flex flex-col gap-6 md:gap-8">
+            <div className="flex flex-col gap-3 md:gap-4 md:flex-row md:items-center md:justify-between">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full bg-[#eff6ff] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2563eb]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#2563eb]" />
+                  Core specialisations
+                </div>
+                <h2 className="mt-3 text-[28px] md:text-[32px] font-bold tracking-tight text-[#181322] leading-[1.3]">
+                  What we specialise in
+                </h2>
+                <p className="mt-2 text-[15px] md:text-[16px] leading-[1.7] text-[#4a435d] max-w-2xl">
+                  Vita Homecare focuses on non-medical home care. We do not replace hospital or
+                  clinic services; instead, we provide practical, everyday support around the client
+                  in their own home.
+                </p>
+              </div>
+            </div>
+
+            {/* pill-style specialisation chips */}
+            <div className="flex flex-wrap gap-2.5 md:gap-3">
+              {[
+                "Elderly care",
+                "Mobility support",
+                "Prolonged health conditions",
+                "Dementia care",
+                "Chronic illness support",
+              ].map((label) => (
+                <span
+                  key={label}
+                  className="inline-flex items-center gap-2 rounded-full border border-[#dbeafe] bg-[#f3f6ff] px-3.5 py-1.5 text-[12px] md:text-[13px] font-semibold text-[#1d4ed8] shadow-sm"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#60a5fa]" />
+                  {label}
+                </span>
+              ))}
+            </div>
+
+            {/* two-column detail list */}
+            <div className="grid gap-4 md:gap-6 md:grid-cols-2">
+              <div className="space-y-3 text-[14px] md:text-[15px] text-[#374151]">
+                <div className="rounded-2xl bg-[#f9fafb] p-4 border border-[#e5e7eb]">
+                  <p className="font-semibold text-[#111827]">Elderly care</p>
+                  <p className="mt-1 leading-relaxed">
+                    Supporting seniors to live independently at home with personal care,
+                    companionship, and daily assistance.
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-[#f9fafb] p-4 border border-[#e5e7eb]">
+                  <p className="font-semibold text-[#111827]">Mobility support</p>
+                  <p className="mt-1 leading-relaxed">
+                    Assistance for clients with limited mobility, including safe transfers, walking
+                    support, and positioning around the home.
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-[#f9fafb] p-4 border border-[#e5e7eb]">
+                  <p className="font-semibold text-[#111827]">Prolonged health conditions</p>
+                  <p className="mt-1 leading-relaxed">
+                    Skilled non-clinical support for long-term conditions, built around the care
+                    plan from your doctor or hospital.
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-3 text-[14px] md:text-[15px] text-[#374151]">
+                <div className="rounded-2xl bg-[#f9fafb] p-4 border border-[#e5e7eb]">
+                  <p className="font-semibold text-[#111827]">Dementia care</p>
+                  <p className="mt-1 leading-relaxed">
+                    Compassionate, patient-focused support for clients living with dementia or
+                    memory loss, with routines that feel familiar and safe.
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-[#f9fafb] p-4 border border-[#e5e7eb]">
+                  <p className="font-semibold text-[#111827]">Chronic illness support</p>
+                  <p className="mt-1 leading-relaxed">
+                    Safe, reliable daily assistance for non-medical needs related to chronic
+                    illness—help around medication reminders, meals, and everyday tasks.
+                  </p>
+                </div>
+
+                {/* highlighted warning / disclaimer */}
+                <div className="mt-3 rounded-2xl border border-[#f97316]/30 bg-[#fff7ed] px-4 py-3 flex gap-3 items-start">
+                  <span className="mt-0.5 inline-flex h-6 w-10 items-center justify-center bg-[#f97316] text-white text-xs font-bold">
+                    !
+                  </span>
+                  <p className="text-[13px] leading-relaxed text-[#7c2d12] font-medium">
+                    We do <span className="font-semibold">not</span> provide clinical nursing procedures or hospital-level
+                    interventions. Our role is to support daily life at home around any medical
+                    treatment prescribed by your doctor or hospital.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
       {/* Animation styles */}
       <style>{`

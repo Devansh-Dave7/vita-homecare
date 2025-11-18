@@ -13,13 +13,13 @@ export default function InfoCards() {
                     {card.icon}
                   </span>
                   <div>
-                    <h3 className="text-xl font-monorope font-bold text-[#2c254c]">{card.title}</h3>
-                    <p className="mt-2 text-base font-monorope font-medium text-[#4f4865]">{card.detail}</p>
+                    <h3 className="text-xl font-onest font-bold text-[#2c254c]">{card.title}</h3>
+                    <p className="mt-2 text-base font-onest font-medium text-[#4f4865]">{card.detail}</p>
                   </div>
                 </div>
                 <a
                   href={card.href}
-                  className="mt-auto inline-flex items-center gap-3 text-base font-monorope font-bold text-[#1450d1] hover:text-[#3e5ab7] transition-all duration-300 group hover:scale-105"
+                  className="mt-auto inline-flex items-center gap-3 text-base font-onest font-bold text-[#1450d1] hover:text-[#3e5ab7] transition-all duration-300 group hover:scale-105"
                 >
                   {card.cta}
                   <svg viewBox="0 0 24 24" className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
@@ -40,9 +40,9 @@ const iconClass = "h-8 w-8";
 const cards = [
   {
     title: "Call us",
-    detail: "(414) 850 - 0417",
+    detail: "+44 7542 532477",
     cta: "Make us a call",
-    href: "tel:4148500417",
+    href: "tel:7542532477",
     icon: (
       <svg viewBox="0 0 24 24" className={iconClass}>
         <path
@@ -54,9 +54,9 @@ const cards = [
   },
   {
     title: "Email us",
-    detail: "contact@elderlycare.com",
+    detail: "contact@vitahomecare.com",
     cta: "Send us a email",
-    href: "mailto:contact@elderlycare.com",
+    href: "mailto:contact@vitahomecare.com",
     icon: (
       <svg viewBox="0 0 24 24" className={iconClass}>
         <path
@@ -68,7 +68,7 @@ const cards = [
   },
   {
     title: "Visit us",
-    detail: "8400 Division Ave Staten Island, NY 10314",
+    detail: "Lusaka, Zambia",
     cta: "View our locations",
     href: "#locations",
     icon: (
