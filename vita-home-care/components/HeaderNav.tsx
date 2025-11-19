@@ -48,6 +48,9 @@ export default function HeaderNav() {
             if (item === "Services") {
               return <Link key={item} href="/services" className="hover:text-[#2563eb] transition-colors duration-300">{item}</Link>;
             }
+            if (item === "Blog") {
+              return <Link key={item} href="/blog" className="hover:text-[#2563eb] transition-colors duration-300">{item}</Link>;
+            }
             if (item === "Contact Us") {
               return <Link key={item} href="/contact" className="hover:text-[#2563eb] transition-colors duration-300">{item}</Link>;
             }
@@ -115,6 +118,18 @@ export default function HeaderNav() {
                 <Link
                   key={item}
                   href="/services"
+                  className="block py-3 text-base font-onest font-semibold text-[#1e3a8a] hover:text-[#2563eb] transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item}
+                </Link>
+              );
+            }
+            if (item === "Blog") {
+              return (
+                <Link
+                  key={item}
+                  href="/blog"
                   className="block py-3 text-base font-onest font-semibold text-[#1e3a8a] hover:text-[#2563eb] transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
