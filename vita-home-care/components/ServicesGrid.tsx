@@ -78,8 +78,8 @@ const ServicesGrid: React.FC = () => {
                   {service.category || 'Service'}
                 </span>
               </div>
-              <h3 className="text-2xl md:text-3xl font-semibold text-[#2c254c] mb-3 group-hover:text-[#2563eb] transition-colors">{service.name}</h3>
-              <p className="text-base md:text-lg text-[#4f4865] mb-6 grow">{service.short_description}</p>
+              <h3 className="text-xl sm:text-2xl font-semibold text-[#2c254c] mb-3 transition-colors duration-300 group-hover:text-[#2563eb]">{service.name}</h3>
+              <p className="text-sm sm:text-base leading-6 text-[#4f4865] mb-6 grow transition-opacity duration-300 group-hover:opacity-95">{service.short_description}</p>
               <Link
                 href={`/services/${service.slug}`}
                 className="inline-flex items-center gap-2 text-sm font-semibold text-[#2563eb] hover:text-[#1e40af] transition-all duration-300 group"
@@ -91,26 +91,32 @@ const ServicesGrid: React.FC = () => {
           </article>
         ))}
       </div>
-      <div className="relative z-10 flex flex-col gap-6 md:gap-8 mt-16">
-            <div className="flex flex-col gap-3 md:gap-4 md:flex-row md:items-center md:justify-between">
-              <div>
-                <div className="inline-flex items-center gap-2 rounded-full bg-[#eff6ff] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2563eb]">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#2563eb]" />
-                  Core specialisations
-                </div>
-                <h2 className="mt-3 text-[28px] md:text-[32px] font-bold tracking-tight text-[#181322] leading-[1.3]">
-                  What we specialise in
-                </h2>
-                <p className="mt-2 text-[15px] md:text-[16px] leading-[1.7] text-[#4a435d] max-w-2xl">
-                  Vita Homecare focuses on non-medical home care. We do not replace hospital or
-                  clinic services; instead, we provide practical, everyday support around the client
-                  in their own home.
-                </p>
-              </div>
-            </div>
 
-            {/* pill-style specialisation chips */}
-            <div className="flex flex-wrap gap-2.5 md:gap-3">
+      {/* Our Specialisation subsection */}
+      <div className="mt-16 rounded-[32px] border border-[#e5e7eb] bg-white p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden">
+        {/* subtle background accent */}
+        <div className="pointer-events-none absolute inset-y-0 right-[-80px] w-64 bg-gradient-to-b from-[#eff6ff]/80 via-white to-[#eef2ff] opacity-70" />
+
+        <div className="relative z-10 flex flex-col gap-6 md:gap-8">
+          <div className="flex flex-col gap-3 md:gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-[#eff6ff] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#2563eb]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#2563eb]" />
+                Core specialisations
+              </div>
+              <h2 className="mt-3 text-[28px] md:text-[32px] font-bold tracking-tight text-[#181322] leading-[1.3]">
+                What we specialise in
+              </h2>
+              <p className="mt-2 text-[15px] md:text-[16px] leading-[1.7] text-[#4a435d] max-w-2xl">
+                Vita Homecare focuses on non-medical home care. We do not replace hospital or
+                clinic services; instead, we provide practical, everyday support around the client
+                in their own home.
+              </p>
+            </div>
+          </div>
+
+          {/* pill-style specialisation chips */}
+          <div className="flex flex-wrap gap-2.5 md:gap-3">
               {[
                 "Elderly care",
                 "Mobility support",
@@ -126,11 +132,11 @@ const ServicesGrid: React.FC = () => {
                   {label}
                 </span>
               ))}
-            </div>
+          </div>
 
-            {/* two-column detail list */}
-            <div className="grid gap-4 md:gap-6 md:grid-cols-2">
-              <div className="space-y-3 text-[14px] md:text-[15px] text-[#374151]">
+          {/* two-column detail list */}
+          <div className="grid gap-4 md:gap-6 md:grid-cols-2">
+            <div className="space-y-3 text-[14px] md:text-[15px] text-[#374151]">
                 <div className="rounded-2xl bg-[#f9fafb] p-4 border border-[#e5e7eb]">
                   <p className="font-semibold text-[#111827]">Elderly care</p>
                   <p className="mt-1 leading-relaxed">
@@ -152,8 +158,8 @@ const ServicesGrid: React.FC = () => {
                     plan from your doctor or hospital.
                   </p>
                 </div>
-              </div>
-              <div className="space-y-3 text-[14px] md:text-[15px] text-[#374151]">
+            </div>
+            <div className="space-y-3 text-[14px] md:text-[15px] text-[#374151]">
                 <div className="rounded-2xl bg-[#f9fafb] p-4 border border-[#e5e7eb]">
                   <p className="font-semibold text-[#111827]">Dementia care</p>
                   <p className="mt-1 leading-relaxed">
@@ -180,9 +186,11 @@ const ServicesGrid: React.FC = () => {
                     treatment prescribed by your doctor or hospital.
                   </p>
                 </div>
-              </div>
             </div>
+          </div>
+        </div>
       </div>
+
       {/* Animation styles */}
       <style>{`
         @keyframes fadeIn {
