@@ -1,37 +1,12 @@
 import type { FC } from "react";
 import BlogCard from "./BlogCard";
+import { getPublishedBlogSummariesWithMeta } from "../lib/data/blog";
 
-const blogPosts = [
-  {
-    id: 1,
-    category: "Articles",
-    title: "10 Great activities to do with you grandchildren",
-    date: "Nov 7, 2023",
-    image: "blog1.jpg",
-    attribution: "mali desha on Unsplash",
-    photographerUrl: "https://unsplash.com/@malidesha"
-  },
-  {
-    id: 2,
-    category: "Resources",
-    title: "How to keep your marriage strong while caregiving",
-    date: "Nov 7, 2023",
-    image: "blog2.jpg",
-    attribution: "Vitaly Gariev on Unsplash",
-    photographerUrl: "https://unsplash.com/@silverkblack"
-  },
-  {
-    id: 3,
-    category: "News",
-    title: "Best vitamin B12 supplement brands for older adults",
-    date: "Nov 6, 2023",
-    image: "blog3.jpg",
-    attribution: "Ernst-Günther Krause (NID) on Unsplash",
-    photographerUrl: "https://unsplash.com/@nichtraucherinitiative"
-  }
-];
+export const dynamic = 'force-dynamic';
 
-const BlogSection: FC = () => {
+const BlogSection: FC = async () => {
+  const posts = await getPublishedBlogSummariesWithMeta();
+  const latest = posts.slice(0, 3);
   return (
     <section className="bg-neutral-50 py-20 px-4 md:px-8">
       <div className="mx-auto max-w-7xl">
@@ -66,10 +41,10 @@ const BlogSection: FC = () => {
           </a>
         </div>
 
-        {/* Blog Cards Grid */}
+        {/* Blog Cards Grid (latest 3) */}
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {blogPosts.map((post) => (
-            <BlogCard key={post.id} post={post} />
+          {latest.map((post) => (
+            <BlogCard key={post.id} post={post as any} />
           ))}
         </div>
       </div>
