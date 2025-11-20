@@ -4,10 +4,14 @@
 
 insert into site_settings (key, value_json)
 values
-('contact_phone', '"7542532477"'::jsonb),
-('contact_phone_display', '"+44 7542 532477"'::jsonb),
+('contact_phone', '"+260 7542 532477"'::jsonb),
 ('contact_email', '"contact@vitahomecare.com"'::jsonb),
-('contact_location', '"Lusaka, Zambia"'::jsonb)
+('contact_location', '"Lusaka, Zambia"'::jsonb),
+('social_facebook', '""'::jsonb),
+('social_twitter', '""'::jsonb),
+('social_instagram', '""'::jsonb),
+('social_youtube', '""'::jsonb),
+('social_linkedin', '""'::jsonb)
 on conflict (key) do update
 set value_json = excluded.value_json,
     updated_at = now();

@@ -2,6 +2,7 @@ import React from "react";
 import TopBar from "@/components/TopBar";
 import HeaderNav from "@/components/HeaderNav";
 import Footer from "@/components/Footer";
+import InquiryForm from "@/components/InquiryForm";
 
 export const metadata = {
   title: "Care Inquiry | Vita Homecare",
@@ -30,7 +31,9 @@ export default function InquiryPage() {
           </p>
         </header>
 
-        <form className="space-y-10" action="#" method="post">
+        <InquiryForm />
+        {/* Old form code below - to be removed */}
+        {false && <form className="space-y-10" action="#" method="post">
           {/* Section 1: Your Details */}
           <section aria-labelledby="your-details-heading" className="space-y-6 rounded-2xl border border-[#e5e7eb] bg-[#f9fafb] p-6 md:p-8">
             <div className="flex items-center justify-between gap-4">
@@ -306,7 +309,7 @@ export default function InquiryPage() {
               approximate daily rates. We do not offer instant online checkout.
             </p>
           </div>
-        </form>
+        </form>}
       </section>
 
       <Footer />

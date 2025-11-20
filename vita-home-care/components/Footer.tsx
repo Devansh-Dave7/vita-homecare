@@ -1,7 +1,9 @@
 import React from "react";
+import { getContactSettings } from "@/lib/data/siteSettings";
 // Use plain <img> for SVGs instead of next/image
 
-export default function Footer() {
+export default async function Footer() {
+  const settings = await getContactSettings();
   return (
     <footer className="w-full bg-gradient-to-b from-[#e6f0ff] to-[#f0f6ff] border-t border-[#dbeafe]">
       <div className="mx-auto max-w-7xl px-4 py-12">
@@ -21,10 +23,10 @@ export default function Footer() {
             </div>
             <div>
               <a 
-                href="tel:02393694551" 
+                href={`tel:${settings.contact_phone.replace(/\s/g, '')}`}
                 className="text-2xl font-bold text-[#2c254c] hover:text-[#2563eb] transition-colors duration-300"
               >
-                +44 1234567890
+                {settings.contact_phone}
               </a>
             </div>
           </div>
@@ -48,11 +50,8 @@ export default function Footer() {
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
               </div>
-              <p className="text-base font-semibold text-[#2c254c] leading-relaxed">
-                382 lusaka Road, Chongwe , Portsmouth,
-              </p>
-              <p className="text-base font-semibold text-[#2c254c]">
-                Hants, PO2 9SD
+              <p className="text-base font-semibold text-[#2c254c] leading-relaxed text-center">
+                {settings.contact_location}
               </p>
             </div>
           </div>
@@ -70,10 +69,10 @@ export default function Footer() {
             </div>
             <div>
               <a 
-                href="mailto:info@vitahomecare.com" 
+                href={`mailto:${settings.contact_email}`}
                 className="text-lg font-semibold text-[#2c254c] hover:text-[#2563eb] transition-colors duration-300 break-all"
               >
-                info@vitahomecare.com
+                {settings.contact_email}
               </a>
             </div>
           </div>

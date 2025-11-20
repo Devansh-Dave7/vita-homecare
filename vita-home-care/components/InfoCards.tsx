@@ -6,15 +6,13 @@ const iconClass = "h-8 w-8";
 
 type ContactSettings = {
   phone: string;
-  phoneDisplay: string;
   email: string;
   location: string;
 };
 
 export default function InfoCards() {
   const [contact, setContact] = useState<ContactSettings>({
-    phone: '7542532477',
-    phoneDisplay: '+44 7542 532477',
+    phone: '+260 7542 532477',
     email: 'contact@vitahomecare.com',
     location: 'Lusaka, Zambia'
   });
@@ -27,7 +25,7 @@ export default function InfoCards() {
         const { data, error } = await supabase
           .from('site_settings')
           .select('key, value_json')
-          .in('key', ['contact_phone', 'contact_phone_display', 'contact_email', 'contact_location']);
+          .in('key', ['contact_phone', 'contact_email', 'contact_location']);
         
         if (error) throw error;
         
@@ -39,7 +37,6 @@ export default function InfoCards() {
           
           setContact({
             phone: settings.contact_phone || contact.phone,
-            phoneDisplay: settings.contact_phone_display || contact.phoneDisplay,
             email: settings.contact_email || contact.email,
             location: settings.contact_location || contact.location
           });
@@ -54,7 +51,7 @@ export default function InfoCards() {
   const cards = [
     {
       title: "Call us",
-      detail: contact.phoneDisplay,
+      detail: contact.phone,
       cta: "Make us a call",
       href: `tel:${contact.phone}`,
       icon: (
