@@ -47,7 +47,7 @@ export default function ContactModal({ submission, onClose }: ContactModalProps)
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
       {/* Backdrop */}
-      <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div className="flex min-h-screen items-center justify-center p-4 text-center sm:p-0">
         <div 
           className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
           aria-hidden="true"
@@ -55,18 +55,18 @@ export default function ContactModal({ submission, onClose }: ContactModalProps)
         ></div>
 
         {/* Centering trick */}
-        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <span className="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
 
         {/* Modal panel */}
-        <div className="relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
+        <div className="relative inline-block transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl align-middle w-full">
           {/* Header */}
-          <div className="bg-gradient-to-r from-[#e6f0ff] to-[#f2f7ff] px-6 py-4 border-b border-[#dbeafe]">
+          <div className="bg-gradient-to-r from-[#e6f0ff] to-[#f2f7ff] px-4 sm:px-6 py-4 border-b border-[#dbeafe]">
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="text-xl font-onest font-bold text-[#2c254c]" id="modal-title">
+                <h3 className="text-lg sm:text-xl font-onest font-bold text-[#2c254c]" id="modal-title">
                   Contact Submission Details
                 </h3>
-                <p className="mt-1 text-sm font-onest text-[#4f4865]">
+                <p className="mt-1 text-xs sm:text-sm font-onest text-[#4f4865]">
                   {new Date(submission.submitted_at).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
@@ -78,7 +78,7 @@ export default function ContactModal({ submission, onClose }: ContactModalProps)
               </div>
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-gray-500 transition-colors"
+                className="text-gray-400 hover:text-gray-500 transition-colors p-1"
               >
                 <span className="sr-only">Close</span>
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -89,7 +89,7 @@ export default function ContactModal({ submission, onClose }: ContactModalProps)
           </div>
 
           {/* Content */}
-          <div className="bg-white px-6 py-5">
+          <div className="bg-white px-4 sm:px-6 py-5">
             <div className="space-y-6">
               {/* Status */}
               <div>
@@ -182,23 +182,23 @@ export default function ContactModal({ submission, onClose }: ContactModalProps)
           </div>
 
           {/* Footer */}
-          <div className="bg-gray-50 px-6 py-4 flex justify-between items-center">
+          <div className="bg-gray-50 px-4 sm:px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <DeleteButton
               submissionId={submission.id}
               submissionName={submission.name}
               onDeleted={onClose}
             />
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-sm font-onest font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                className="w-full sm:w-auto px-4 py-2 text-sm font-onest font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Close
               </button>
               <a
                 href={`mailto:${submission.email}`}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-onest font-semibold text-white bg-[#2563eb] rounded-lg hover:bg-[#1d4ed8] transition-colors"
+                className="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-4 py-2 text-sm font-onest font-semibold text-white bg-[#2563eb] rounded-lg hover:bg-[#1d4ed8] transition-colors"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />

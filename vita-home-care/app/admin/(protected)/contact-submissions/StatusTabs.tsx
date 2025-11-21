@@ -28,14 +28,14 @@ export default function StatusTabs({ onStatusChange, counts }: StatusTabsProps) 
   };
 
   return (
-    <div className="border-b border-gray-200 mb-6">
-      <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+    <div className="border-b border-gray-200 mb-6 overflow-x-auto">
+      <nav className="-mb-px flex space-x-4 sm:space-x-8 min-w-max px-1" aria-label="Tabs">
         {tabs.map((tab) => (
           <button
             key={tab.key}
             onClick={() => handleTabClick(tab.key)}
             className={`
-              whitespace-nowrap py-4 px-1 border-b-2 font-onest font-medium text-sm transition-colors
+              whitespace-nowrap py-4 px-1 border-b-2 font-onest font-medium text-sm transition-colors flex items-center
               ${
                 activeTab === tab.key
                   ? 'border-[#2563eb] text-[#2563eb]'

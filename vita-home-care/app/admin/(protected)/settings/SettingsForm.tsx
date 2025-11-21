@@ -54,12 +54,12 @@ export default function SettingsForm({ initialSettings, onSubmit }: SettingsForm
         </div>
       )}
 
-      <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-6">
-        <h2 className="text-xl font-semibold text-gray-900">Contact Information</h2>
+      <div className="bg-white rounded-xl border border-[#dbeafe] p-6 space-y-6">
+        <h2 className="text-lg font-onest font-bold text-[#2c254c]">Contact Information</h2>
         
         <div className="grid gap-6 md:grid-cols-2">
           <div>
-            <label htmlFor="contact_phone" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="contact_phone" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
               Phone Number
             </label>
             <input
@@ -70,13 +70,13 @@ export default function SettingsForm({ initialSettings, onSubmit }: SettingsForm
               onChange={handleChange}
               required
               placeholder="+260 7542 532477"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all"
             />
-            <p className="mt-1 text-xs text-gray-500">Include country code (e.g., +260 for Zambia)</p>
+            <p className="mt-1 text-xs text-[#4f4865] font-onest">Include country code (e.g., +260 for Zambia)</p>
           </div>
 
           <div>
-            <label htmlFor="contact_email" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="contact_email" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
               Contact Email
             </label>
             <input
@@ -87,12 +87,12 @@ export default function SettingsForm({ initialSettings, onSubmit }: SettingsForm
               onChange={handleChange}
               required
               placeholder="contact@vitahomecare.com"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all"
             />
           </div>
 
-          <div>
-            <label htmlFor="contact_location" className="block text-sm font-medium text-gray-700 mb-2">
+          <div className="md:col-span-2">
+            <label htmlFor="contact_location" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
               Location
             </label>
             <input
@@ -103,19 +103,21 @@ export default function SettingsForm({ initialSettings, onSubmit }: SettingsForm
               onChange={handleChange}
               required
               placeholder="Lusaka, Zambia"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all"
             />
           </div>
         </div>
       </div>
 
-      <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-6">
-        <h2 className="text-xl font-semibold text-gray-900">Social Media Links</h2>
-        <p className="text-sm text-gray-600">Add your social media URLs. Leave blank to hide the icon in the top bar.</p>
+      <div className="bg-white rounded-xl border border-[#dbeafe] p-6 space-y-6">
+        <div>
+          <h2 className="text-lg font-onest font-bold text-[#2c254c]">Social Media Links</h2>
+          <p className="text-sm text-[#4f4865] font-onest mt-1">Add your social media URLs. Leave blank to hide the icon in the top bar.</p>
+        </div>
         
         <div className="grid gap-6 md:grid-cols-2">
           <div>
-            <label htmlFor="social_facebook" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="social_facebook" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
               Facebook URL
             </label>
             <input
@@ -125,12 +127,12 @@ export default function SettingsForm({ initialSettings, onSubmit }: SettingsForm
               value={formData.social_facebook || ''}
               onChange={handleChange}
               placeholder="https://facebook.com/yourpage"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all"
             />
           </div>
 
           <div>
-            <label htmlFor="social_twitter" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="social_twitter" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
               Twitter/X URL
             </label>
             <input
@@ -140,12 +142,12 @@ export default function SettingsForm({ initialSettings, onSubmit }: SettingsForm
               value={formData.social_twitter || ''}
               onChange={handleChange}
               placeholder="https://twitter.com/yourhandle"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all"
             />
           </div>
 
           <div>
-            <label htmlFor="social_instagram" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="social_instagram" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
               Instagram URL
             </label>
             <input
@@ -155,12 +157,12 @@ export default function SettingsForm({ initialSettings, onSubmit }: SettingsForm
               value={formData.social_instagram || ''}
               onChange={handleChange}
               placeholder="https://instagram.com/yourhandle"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all"
             />
           </div>
 
           <div>
-            <label htmlFor="social_youtube" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="social_youtube" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
               YouTube URL
             </label>
             <input
@@ -170,12 +172,12 @@ export default function SettingsForm({ initialSettings, onSubmit }: SettingsForm
               value={formData.social_youtube || ''}
               onChange={handleChange}
               placeholder="https://youtube.com/@yourchannel"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all"
             />
           </div>
 
-          <div>
-            <label htmlFor="social_linkedin" className="block text-sm font-medium text-gray-700 mb-2">
+          <div className="md:col-span-2">
+            <label htmlFor="social_linkedin" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
               LinkedIn URL
             </label>
             <input
@@ -185,17 +187,17 @@ export default function SettingsForm({ initialSettings, onSubmit }: SettingsForm
               value={formData.social_linkedin || ''}
               onChange={handleChange}
               placeholder="https://linkedin.com/company/yourcompany"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all"
             />
           </div>
         </div>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-3 pt-4">
         <button
           type="submit"
           disabled={isSubmitting}
-          className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+          className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-[#1450d1] to-[#2563eb] text-white font-onest font-bold rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
           {isSubmitting ? 'Saving...' : 'Save Settings'}
         </button>
@@ -204,9 +206,9 @@ export default function SettingsForm({ initialSettings, onSubmit }: SettingsForm
           type="button"
           onClick={() => setFormData(initialSettings)}
           disabled={isSubmitting}
-          className="px-6 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 disabled:bg-gray-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full sm:w-auto px-6 py-3 border border-[#dbeafe] text-[#2c254c] font-onest font-bold rounded-lg hover:bg-[#f8fafc] transition-colors disabled:opacity-50"
         >
-          Reset
+          Reset Changes
         </button>
       </div>
     </form>

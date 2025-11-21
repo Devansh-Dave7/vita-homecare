@@ -1,9 +1,8 @@
 'use client';
 
 import type { InquirySubmission } from '@/lib/data/submissions';
-import { updateInquirySubmissionStatus } from '@/lib/data/submissions';
-import { useState } from 'react';
 import DeleteButton from './DeleteButton';
+import StatusDropdown from '../contact-submissions/StatusDropdown';
 
 type InquiryModalProps = {
   submission: InquirySubmission;
@@ -11,247 +10,168 @@ type InquiryModalProps = {
 };
 
 export default function InquiryModal({ submission, onClose }: InquiryModalProps) {
-  const [status, setStatus] = useState(submission.status);
-  const [isUpdating, setIsUpdating] = useState(false);
-
-  const handleStatusChange = async (newStatus: string) => {
-    setIsUpdating(true);
-    try {
-      const result = await updateInquirySubmissionStatus(submission.id, newStatus);
-      if (result.success) {
-        setStatus(newStatus);
-      } else {
-        alert('Failed to update status: ' + result.error);
-      }
-    } catch (error) {
-      console.error('Error updating status:', error);
-      alert('Failed to update status');
-    } finally {
-      setIsUpdating(false);
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'new':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'contacted':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'closed':
-        return 'bg-green-100 text-green-800 border-green-200';
-      default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
-  };
-
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-      {/* Backdrop */}
-      <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div 
-          className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
-          aria-hidden="true"
-          onClick={onClose}
-        ></div>
-
-        {/* Centering trick */}
-        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-        {/* Modal panel */}
-        <div className="relative z-10 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-[#e6f0ff] to-[#f2f7ff] px-6 py-4 border-b border-[#dbeafe]">
-            <div className="flex items-start justify-between">
-              <div>
-                <h3 className="text-xl font-onest font-bold text-[#2c254c]" id="modal-title">
-                  Inquiry Submission Details
-                </h3>
-                <p className="mt-1 text-sm font-onest text-[#4f4865]">
-                  {new Date(submission.submitted_at).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </p>
-              </div>
-              <button
-                onClick={onClose}
-                className="text-gray-400 hover:text-gray-500 transition-colors"
-              >
-                <span className="sr-only">Close</span>
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-white rounded-2xl shadow-xl w-full sm:max-w-3xl max-h-[90vh] overflow-y-auto">
+        <div className="p-6 sm:p-8 border-b border-[#dbeafe] flex justify-between items-start sticky top-0 bg-white z-10">
+          <div>
+            <h2 className="text-2xl font-onest font-bold text-[#2c254c]">
+              Inquiry Details
+            </h2>
+            <p className="text-sm text-[#4f4865] mt-1 font-onest">
+              Submitted on {new Date(submission.submitted_at).toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
+            </p>
           </div>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 transition-colors p-2 hover:bg-gray-100 rounded-full"
+          >
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
 
-          {/* Content */}
-          <div className="bg-white px-6 py-5 max-h-[70vh] overflow-y-auto">
-            <div className="space-y-6">
-              {/* Status */}
+        <div className="p-6 sm:p-8 space-y-8">
+          {/* Personal Information */}
+          <section>
+            <h3 className="text-lg font-onest font-bold text-[#1450d1] mb-4 flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              Personal Information
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-[#f8fafc] p-6 rounded-xl border border-[#dbeafe]">
               <div>
-                <label className="block text-xs font-onest font-semibold text-gray-500 uppercase mb-2">
-                  Status
-                </label>
-                <select
-                  value={status}
-                  onChange={(e) => handleStatusChange(e.target.value)}
-                  disabled={isUpdating}
-                  className={`px-4 py-2 text-sm font-onest font-semibold rounded-lg border transition-colors ${getStatusColor(status)} ${
-                    isUpdating ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:opacity-80'
-                  }`}
-                >
-                  <option value="new">New</option>
-                  <option value="contacted">Contacted</option>
-                  <option value="closed">Closed</option>
-                </select>
+                <label className="text-xs font-bold text-[#6b7280] uppercase tracking-wider font-onest">Full Name</label>
+                <p className="mt-1 text-[#2c254c] font-medium font-onest text-lg">{submission.full_name}</p>
               </div>
-
-              {/* Personal Information */}
               <div>
-                <h4 className="text-sm font-onest font-bold text-gray-700 uppercase mb-3">Contact Information</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-onest font-semibold text-gray-500 uppercase mb-1">
-                      Full Name
-                    </label>
-                    <p className="text-sm font-onest text-gray-900">{submission.full_name}</p>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-onest font-semibold text-gray-500 uppercase mb-1">
-                      Email
-                    </label>
-                    <a 
-                      href={`mailto:${submission.email}`}
-                      className="text-sm font-onest text-[#2563eb] hover:underline"
-                    >
-                      {submission.email}
-                    </a>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-onest font-semibold text-gray-500 uppercase mb-1">
-                      Phone
-                    </label>
-                    <a 
-                      href={`tel:${submission.phone}`}
-                      className="text-sm font-onest text-[#2563eb] hover:underline"
-                    >
-                      {submission.phone}
-                    </a>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-onest font-semibold text-gray-500 uppercase mb-1">
-                      Address
-                    </label>
-                    <p className="text-sm font-onest text-gray-900">{submission.address}</p>
-                  </div>
-                </div>
+                <label className="text-xs font-bold text-[#6b7280] uppercase tracking-wider font-onest">Email Address</label>
+                <a href={`mailto:${submission.email}`} className="mt-1 text-[#1450d1] hover:underline font-medium font-onest block text-lg break-all">
+                  {submission.email}
+                </a>
               </div>
-
-              {/* Care Details */}
               <div>
-                <h4 className="text-sm font-onest font-bold text-gray-700 uppercase mb-3">Care Details</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {submission.care_for && (
-                    <div>
-                      <label className="block text-xs font-onest font-semibold text-gray-500 uppercase mb-1">
-                        Care For
-                      </label>
-                      <p className="text-sm font-onest text-gray-900">{submission.care_for}</p>
-                    </div>
-                  )}
-
-                  <div>
-                    <label className="block text-xs font-onest font-semibold text-gray-500 uppercase mb-1">
-                      Start Date Needed
-                    </label>
-                    <p className="text-sm font-onest text-gray-900">{submission.start_date}</p>
-                  </div>
-
-                  {submission.reason && (
-                    <div>
-                      <label className="block text-xs font-onest font-semibold text-gray-500 uppercase mb-1">
-                        Reason for Care
-                      </label>
-                      <p className="text-sm font-onest text-gray-900">{submission.reason}</p>
-                    </div>
-                  )}
-
-                  {submission.hours_per_week && (
-                    <div>
-                      <label className="block text-xs font-onest font-semibold text-gray-500 uppercase mb-1">
-                        Hours Per Week
-                      </label>
-                      <p className="text-sm font-onest text-gray-900">{submission.hours_per_week}</p>
-                    </div>
-                  )}
-
-                  {submission.referrer && (
-                    <div className="md:col-span-2">
-                      <label className="block text-xs font-onest font-semibold text-gray-500 uppercase mb-1">
-                        Referred By
-                      </label>
-                      <p className="text-sm font-onest text-gray-900">{submission.referrer}</p>
-                    </div>
-                  )}
-                </div>
+                <label className="text-xs font-bold text-[#6b7280] uppercase tracking-wider font-onest">Phone Number</label>
+                <a href={`tel:${submission.phone}`} className="mt-1 text-[#1450d1] hover:underline font-medium font-onest block text-lg">
+                  {submission.phone}
+                </a>
               </div>
-
-              {/* Budget & Service Preferences */}
               <div>
-                <h4 className="text-sm font-onest font-bold text-gray-700 uppercase mb-3">Budget & Service Preferences</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-onest font-semibold text-gray-500 uppercase mb-1">
-                      Budget Affordability
-                    </label>
-                    <p className="text-sm font-onest text-gray-900">{submission.can_afford}</p>
-                  </div>
-
-                  {submission.service_option && (
-                    <div>
-                      <label className="block text-xs font-onest font-semibold text-gray-500 uppercase mb-1">
-                        Preferred Service Option
-                      </label>
-                      <p className="text-sm font-onest text-gray-900">{submission.service_option}</p>
-                    </div>
-                  )}
-                </div>
+                <label className="text-xs font-bold text-[#6b7280] uppercase tracking-wider font-onest">Address</label>
+                <p className="mt-1 text-[#2c254c] font-medium font-onest text-lg">{submission.address || 'Not provided'}</p>
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* Footer */}
-          <div className="bg-gray-50 px-6 py-4 flex justify-between items-center">
-            <DeleteButton
+          {/* Care Details */}
+          <section>
+            <h3 className="text-lg font-onest font-bold text-[#1450d1] mb-4 flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              Care Details
+            </h3>
+            <div className="bg-[#f8fafc] p-6 rounded-xl border border-[#dbeafe] space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {submission.care_for && (
+                  <div>
+                    <label className="text-xs font-bold text-[#6b7280] uppercase tracking-wider font-onest">Care For</label>
+                    <p className="mt-1 text-[#2c254c] font-medium font-onest text-lg">{submission.care_for}</p>
+                  </div>
+                )}
+                <div>
+                  <label className="text-xs font-bold text-[#6b7280] uppercase tracking-wider font-onest">Start Date Needed</label>
+                  <p className="mt-1 text-[#2c254c] font-medium font-onest text-lg">{submission.start_date}</p>
+                </div>
+                {submission.hours_per_week && (
+                  <div>
+                    <label className="text-xs font-bold text-[#6b7280] uppercase tracking-wider font-onest">Hours Per Week</label>
+                    <p className="mt-1 text-[#2c254c] font-medium font-onest text-lg">{submission.hours_per_week}</p>
+                  </div>
+                )}
+                {submission.referrer && (
+                  <div>
+                    <label className="text-xs font-bold text-[#6b7280] uppercase tracking-wider font-onest">Referred By</label>
+                    <p className="mt-1 text-[#2c254c] font-medium font-onest text-lg">{submission.referrer}</p>
+                  </div>
+                )}
+              </div>
+              
+              {submission.reason && (
+                <div>
+                  <label className="text-xs font-bold text-[#6b7280] uppercase tracking-wider font-onest">Reason for Care</label>
+                  <div className="mt-2 p-4 bg-white rounded-lg border border-[#dbeafe] text-[#4f4865] font-onest leading-relaxed whitespace-pre-wrap">
+                    {submission.reason}
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* Budget & Service Preferences */}
+          <section>
+            <h3 className="text-lg font-onest font-bold text-[#1450d1] mb-4 flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Budget & Service Preferences
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-[#f8fafc] p-6 rounded-xl border border-[#dbeafe]">
+              <div>
+                <label className="text-xs font-bold text-[#6b7280] uppercase tracking-wider font-onest">Budget Affordability</label>
+                <p className="mt-1 text-[#2c254c] font-medium font-onest text-lg">{submission.can_afford}</p>
+              </div>
+              {submission.service_option && (
+                <div>
+                  <label className="text-xs font-bold text-[#6b7280] uppercase tracking-wider font-onest">Preferred Service Option</label>
+                  <p className="mt-1 text-[#2c254c] font-medium font-onest text-lg">{submission.service_option}</p>
+                </div>
+              )}
+            </div>
+          </section>
+        </div>
+
+        <div className="p-6 sm:p-8 border-t border-[#dbeafe] bg-gray-50 rounded-b-2xl flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <span className="text-sm font-medium text-[#4f4865] font-onest">Status:</span>
+            <StatusDropdown
               submissionId={submission.id}
-              submissionName={submission.full_name}
-              onDeleted={onClose}
+              currentStatus={submission.status}
+              type="inquiry"
             />
-            <div className="flex gap-3">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 text-sm font-onest font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                Close
-              </button>
-              <a
-                href={`mailto:${submission.email}`}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-onest font-semibold text-white bg-[#2563eb] rounded-lg hover:bg-[#1d4ed8] transition-colors"
-              >
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                Send Email
-              </a>
-            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <DeleteButton 
+              submissionId={submission.id} 
+              submissionName={submission.full_name}
+              onDeleted={() => {
+                onClose();
+              }}
+            />
+            <button
+              onClick={onClose}
+              className="px-6 py-2.5 bg-white border border-[#dbeafe] text-[#4f4865] font-onest font-semibold rounded-lg hover:bg-gray-50 transition-colors w-full sm:w-auto"
+            >
+              Close
+            </button>
+            <a
+              href={`mailto:${submission.email}`}
+              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-onest font-semibold text-white bg-[#1450d1] rounded-lg hover:bg-[#1d4ed8] transition-colors w-full sm:w-auto"
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Send Email
+            </a>
           </div>
         </div>
       </div>

@@ -130,28 +130,35 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label htmlFor="category" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
                 Category *
               </label>
-              <select
-                id="category"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all"
-                disabled={loading}
-              >
-                <option value="">Select Category</option>
-                <option value="care">Care</option>
-                <option value="personal-care">Personal Care</option>
-                <option value="domestic">Domestic</option>
-                <option value="transport">Transport</option>
-                <option value="support">Support</option>
-                <option value="other">Other</option>
-              </select>
+              <div className="relative">
+                <select
+                  id="category"
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] bg-white focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all appearance-none"
+                  disabled={loading}
+                >
+                  <option value="">Select Category</option>
+                  <option value="care">Care</option>
+                  <option value="personal-care">Personal Care</option>
+                  <option value="domestic">Domestic</option>
+                  <option value="transport">Transport</option>
+                  <option value="support">Support</option>
+                  <option value="other">Other</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-[#4f4865]">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
               {isEditing && service && (
                 <p className="text-xs text-[#4f4865] font-onest mt-1">
                   Current: {service.category}
@@ -240,11 +247,11 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
       </div>
 
       {/* Form Actions */}
-      <div className="flex gap-3">
+      <div className="flex flex-col sm:flex-row gap-3 pt-4">
         <button
           type="submit"
           disabled={loading}
-          className="px-6 py-3 bg-gradient-to-r from-[#1450d1] to-[#2563eb] text-white font-onest font-bold rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+          className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-[#1450d1] to-[#2563eb] text-white font-onest font-bold rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
           {loading ? (isEditing ? 'Updating...' : 'Creating...') : (isEditing ? 'Update Service' : 'Create Service')}
         </button>
@@ -252,7 +259,7 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
           type="button"
           onClick={() => router.back()}
           disabled={loading}
-          className="px-6 py-3 border border-[#dbeafe] text-[#2c254c] font-onest font-bold rounded-lg hover:bg-[#f8fafc] transition-colors disabled:opacity-50"
+          className="w-full sm:w-auto px-6 py-3 border border-[#dbeafe] text-[#2c254c] font-onest font-bold rounded-lg hover:bg-[#f8fafc] transition-colors disabled:opacity-50"
         >
           Cancel
         </button>
