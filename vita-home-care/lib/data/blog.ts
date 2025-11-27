@@ -78,7 +78,7 @@ export async function getPublishedBlogPost(slug: string) {
     console.error('[getPublishedBlogPost] anon fetch failed', { slug, error, status, data });
     // Privileged fallback to help debug RLS issues (remove once working)
     try {
-      const srv = createServerSupabase();
+      const srv = await createServerSupabase();
       const { data: privData, error: privError, status: privStatus } = await srv
         .from('blog_posts')
         .select('id, slug, title, body_markdown, hero_image_url, seo_title, seo_description, published_at, status')
@@ -97,3 +97,118 @@ export async function getPublishedBlogPost(slug: string) {
   }
   return data;
 }
+
+// ============================================================================
+// ADMIN FUNCTIONS (require authentication)
+// ============================================================================
+
+export type BlogPost = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt?: string;
+  body_markdown: string;
+  hero_image_url?: string;
+  seo_title?: string;
+  seo_description?: string;
+  status: 'draft' | 'published';
+  published_at?: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type BlogPostInput = {
+  slug: string;
+  title: string;
+  excerpt?: string;
+  body_markdown: string;
+  hero_image_url?: string;
+  seo_title?: string;
+  seo_description?: string;
+  status: 'draft' | 'published';
+  published_at?: string;
+};
+
+// Get all blog posts (including drafts) for admin
+export async function getAllBlogPosts(): Promise<BlogPost[]> {
+  const supabase = await createServerSupabase();
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('[getAllBlogPosts] Error:', error);
+    return [];
+  }
+  return data || [];
+}
+
+// Get single blog post by ID for editing
+export async function getBlogPostById(id: string): Promise<BlogPost | null> {
+  const supabase = await createServerSupabase();
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    console.error('[getBlogPostById] Error:', error);
+    return null;
+  }
+  return data;
+}
+
+// Create new blog post
+export async function createBlogPost(input: BlogPostInput): Promise<{ success: boolean; id?: string; error?: string }> {
+  const supabase = await createServerSupabase();
+
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .insert([input])
+    .select('id')
+    .single();
+
+  if (error) {
+    console.error('[createBlogPost] Error:', error);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true, id: data.id };
+}
+
+// Update existing blog post
+export async function updateBlogPost(id: string, input: BlogPostInput): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createServerSupabase();
+
+  const { error } = await supabase
+    .from('blog_posts')
+    .update(input)
+    .eq('id', id);
+
+  if (error) {
+    console.error('[updateBlogPost] Error:', error);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
+}
+
+// Delete blog post
+export async function deleteBlogPost(id: string): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createServerSupabase();
+
+  const { error } = await supabase
+    .from('blog_posts')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    console.error('[deleteBlogPost] Error:', error);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
+}
+

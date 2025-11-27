@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getServiceById } from '@/lib/data/services';
+import { getServiceCategories } from '@/lib/data/serviceCategories';
 import { ServiceForm } from '../../ServiceForm';
 import { notFound } from 'next/navigation';
 
@@ -16,6 +17,8 @@ export default async function EditServicePage({
   } catch (error) {
     notFound();
   }
+
+  const categories = await getServiceCategories();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#e6f0ff] via-white to-[#f2f7ff]">
@@ -46,7 +49,7 @@ export default async function EditServicePage({
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <ServiceForm service={service} isEditing={true} />
+        <ServiceForm service={service} isEditing={true} categories={categories} />
       </main>
     </div>
   );

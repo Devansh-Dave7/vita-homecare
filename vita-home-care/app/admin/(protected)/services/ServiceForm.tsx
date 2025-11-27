@@ -1,19 +1,52 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Service } from '@/lib/data/services';
 import { createServiceAction, updateServiceAction } from './actions';
+import { uploadServiceImage } from '@/lib/storage/images';
+
+type ServiceCategory = {
+  id: string;
+  name: string;
+  slug: string;
+};
 
 type ServiceFormProps = {
   service?: Service;
   isEditing?: boolean;
+  categories?: ServiceCategory[];
 };
 
-export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
+export function ServiceForm({ service, isEditing = false, categories = [] }: ServiceFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
+  const [previewUrl, setPreviewUrl] = useState<string>(service?.hero_image_url || '');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [autoSlug, setAutoSlug] = useState(!isEditing); // Auto-generate slug for new services
+
+  // Core Task structure
+  type CoreTask = {
+    title: string;
+    description: string;
+  };
+
+  const [coreTasks, setCoreTasks] = useState<CoreTask[]>(() => {
+    if (!service?.features_markdown) return [];
+    try {
+      // Try to parse as JSON
+      const parsed = JSON.parse(service.features_markdown);
+      if (Array.isArray(parsed)) return parsed;
+      return [];
+    } catch (e) {
+      // If not JSON, it's legacy markdown - we'll keep it in features_markdown state
+      // but for now we won't populate coreTasks from it
+      return [];
+    }
+  });
+
   const [formData, setFormData] = useState({
     name: service?.name || '',
     slug: service?.slug || '',
@@ -22,13 +55,112 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
     hero_image_url: service?.hero_image_url || '',
     body_markdown: service?.body_markdown || '',
     audience_markdown: service?.audience_markdown || '',
-    features_markdown: service?.features_markdown || '',
+    // Keep original features_markdown if it wasn't JSON, otherwise empty string
+    // (since we'll rebuild it from coreTasks on submit)
+    features_markdown: service?.features_markdown && !service.features_markdown.trim().startsWith('[')
+      ? service.features_markdown
+      : '',
   });
+
+  // Generate slug from name
+  const generateSlug = (name: string) => {
+    return name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  };
+
+  // Auto-update slug when name changes (if autoSlug is enabled)
+  useEffect(() => {
+    if (autoSlug && formData.name) {
+      const newSlug = generateSlug(formData.name);
+      setFormData(prev => ({ ...prev, slug: newSlug }));
+    }
+  }, [formData.name, autoSlug]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    
+    // If user manually edits slug, disable auto-generation
+    if (name === 'slug') {
+      setAutoSlug(false);
+    }
+    
     setFormData(prev => ({ ...prev, [name]: value }));
   };
+
+  const handleCoreTaskChange = (index: number, field: keyof CoreTask, value: string) => {
+    const newTasks = [...coreTasks];
+    newTasks[index] = { ...newTasks[index], [field]: value };
+    setCoreTasks(newTasks);
+  };
+
+  const addCoreTask = () => {
+    setCoreTasks([...coreTasks, { title: '', description: '' }]);
+  };
+
+  const removeCoreTask = (index: number) => {
+    setCoreTasks(coreTasks.filter((_, i) => i !== index));
+  };
+
+  // Handle image file selection and upload
+  async function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    if (!allowedTypes.includes(file.type)) {
+      setError('Invalid file type. Please upload a JPEG, PNG, WebP, or GIF image.');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError('File size too large. Maximum size is 5MB.');
+      return;
+    }
+
+    // Create preview and upload
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64 = reader.result as string;
+      setPreviewUrl(base64);
+      setUploading(true);
+      setError('');
+
+      try {
+        const result = await uploadServiceImage({
+          base64: base64,
+          fileName: file.name,
+          contentType: file.type,
+        });
+
+        if (result.success && result.url) {
+          setFormData(prev => ({ ...prev, hero_image_url: result.url! }));
+          setPreviewUrl(result.url);
+        } else {
+          setError(result.error || 'Failed to upload image');
+          setPreviewUrl(service?.hero_image_url || '');
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to upload image');
+        setPreviewUrl(service?.hero_image_url || '');
+      } finally {
+        setUploading(false);
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Clear uploaded image
+  function handleClearImage() {
+    setFormData(prev => ({ ...prev, hero_image_url: '' }));
+    setPreviewUrl('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,11 +168,20 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
     setLoading(true);
 
     try {
+      // Serialize coreTasks to JSON for features_markdown
+      // If coreTasks is empty and we have legacy markdown in formData.features_markdown, use that
+      // Otherwise use the JSON string
+      let featuresContent = formData.features_markdown;
+      if (coreTasks.length > 0) {
+        featuresContent = JSON.stringify(coreTasks);
+      }
+
       // If editing and hero_image_url is empty, keep the existing one
       const dataToSubmit = {
         ...formData,
-        hero_image_url: isEditing && !formData.hero_image_url && service?.hero_image_url 
-          ? service.hero_image_url 
+        features_markdown: featuresContent,
+        hero_image_url: isEditing && !formData.hero_image_url && service?.hero_image_url
+          ? service.hero_image_url
           : formData.hero_image_url,
       };
 
@@ -53,7 +194,7 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
         const result = await createServiceAction(dataToSubmit);
         console.log('[ServiceForm] Create result:', result);
       }
-      
+
       console.log('[ServiceForm] Redirecting to services list');
       // Use window.location for a hard redirect to ensure state is cleared
       window.location.href = '/admin/services';
@@ -94,9 +235,20 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
           </div>
 
           <div>
-            <label htmlFor="slug" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
-              URL Slug *
-            </label>
+            <div className="flex items-center justify-between mb-2">
+              <label htmlFor="slug" className="block text-sm font-onest font-semibold text-[#2c254c]">
+                URL Slug *
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={autoSlug}
+                  onChange={(e) => setAutoSlug(e.target.checked)}
+                  className="h-4 w-4 rounded border-[#dbeafe] text-[#2563eb] focus:ring-2 focus:ring-[#2563eb]"
+                />
+                <span className="text-xs text-[#6b7280] font-onest">Auto-generate from title</span>
+              </label>
+            </div>
             <input
               id="slug"
               name="slug"
@@ -104,12 +256,13 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
               value={formData.slug}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all"
+              className={`w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all ${autoSlug ? 'bg-gray-50' : ''}`}
               placeholder="e.g., personal-care-lusaka"
               disabled={loading}
+              readOnly={autoSlug}
             />
             <p className="text-xs text-[#4f4865] font-onest mt-1">
-              Used in URL: /services/{formData.slug}
+              Used in URL: /services/{formData.slug || 'your-service-slug'}
             </p>
           </div>
 
@@ -132,9 +285,17 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="category" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
-                Category *
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label htmlFor="category" className="block text-sm font-onest font-semibold text-[#2c254c]">
+                  Category *
+                </label>
+                <a
+                  href="/admin/services/categories"
+                  className="text-xs text-[#2563eb] hover:underline font-onest"
+                >
+                  Manage Categories
+                </a>
+              </div>
               <div className="relative">
                 <select
                   id="category"
@@ -146,12 +307,22 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
                   disabled={loading}
                 >
                   <option value="">Select Category</option>
-                  <option value="care">Care</option>
-                  <option value="personal-care">Personal Care</option>
-                  <option value="domestic">Domestic</option>
-                  <option value="transport">Transport</option>
-                  <option value="support">Support</option>
-                  <option value="other">Other</option>
+                  {categories.length > 0 ? (
+                    categories.map((cat) => (
+                      <option key={cat.id} value={cat.slug}>
+                        {cat.name}
+                      </option>
+                    ))
+                  ) : (
+                    <>
+                      <option value="care">Care</option>
+                      <option value="personal-care">Personal Care</option>
+                      <option value="domestic">Domestic</option>
+                      <option value="transport">Transport</option>
+                      <option value="support">Support</option>
+                      <option value="other">Other</option>
+                    </>
+                  )}
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-[#4f4865]">
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -165,28 +336,104 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
                 </p>
               )}
             </div>
+          </div>
 
-            <div>
-              <label htmlFor="hero_image_url" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
-                Hero Image URL {!isEditing && '*'}
-              </label>
-              <input
-                id="hero_image_url"
-                name="hero_image_url"
-                type="url"
-                value={formData.hero_image_url}
-                onChange={handleChange}
-                required={!isEditing}
-                className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all"
-                placeholder="https://..."
-                disabled={loading}
-              />
-              {isEditing && service?.hero_image_url && (
-                <p className="text-xs text-[#4f4865] font-onest mt-1">
-                  Current image will be kept if left empty
-                </p>
-              )}
+          {/* Hero Image Upload Section */}
+          <div>
+            <label className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
+              Hero Image {!isEditing && '*'}
+            </label>
+
+            {/* Image Preview */}
+            {previewUrl && (
+              <div className="mb-4 relative inline-block">
+                <img 
+                  src={previewUrl} 
+                  alt="Hero image preview" 
+                  className="h-40 w-64 rounded-xl object-cover border-2 border-[#dbeafe]" 
+                />
+                <button
+                  type="button"
+                  onClick={handleClearImage}
+                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            )}
+
+            {/* Upload Options */}
+            <div className="space-y-4">
+              {/* File Upload */}
+              <div className="border-2 border-dashed border-[#dbeafe] rounded-lg p-4 hover:border-[#2563eb] transition-colors">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  onChange={handleImageChange}
+                  className="hidden"
+                  id="hero-image-upload"
+                  disabled={uploading || loading}
+                />
+                <label
+                  htmlFor="hero-image-upload"
+                  className="flex flex-col items-center justify-center cursor-pointer"
+                >
+                  {uploading ? (
+                    <>
+                      <svg className="animate-spin h-8 w-8 text-[#2563eb] mb-2" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      <span className="text-sm text-[#4f4865] font-onest">Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="h-8 w-8 text-[#2563eb] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span className="text-sm font-onest font-medium text-[#2563eb]">Click to upload image</span>
+                      <span className="text-xs text-[#6b7280] font-onest mt-1">JPEG, PNG, WebP, or GIF (max 5MB)</span>
+                    </>
+                  )}
+                </label>
+              </div>
+
+              {/* Divider */}
+              <div className="flex items-center gap-4">
+                <div className="flex-1 border-t border-[#dbeafe]"></div>
+                <span className="text-xs text-[#6b7280] font-onest">OR</span>
+                <div className="flex-1 border-t border-[#dbeafe]"></div>
+              </div>
+
+              {/* URL Input */}
+              <div>
+                <input
+                  type="url"
+                  id="hero_image_url"
+                  name="hero_image_url"
+                  value={formData.hero_image_url}
+                  onChange={(e) => {
+                    handleChange(e);
+                    setPreviewUrl(e.target.value);
+                  }}
+                  className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all"
+                  placeholder="Or paste an image URL here..."
+                  disabled={loading}
+                />
+              </div>
             </div>
+
+            {isEditing && service?.hero_image_url && !formData.hero_image_url && (
+              <p className="text-xs text-[#4f4865] font-onest mt-2">
+                Current image will be kept if no new image is uploaded
+              </p>
+            )}
+            <p className="text-xs text-[#6b7280] mt-2 font-onest">
+              Recommended size: 1200x800px or larger for best quality
+            </p>
           </div>
         </div>
       </div>
@@ -194,10 +441,10 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
       {/* Markdown Content */}
       <div className="bg-white rounded-xl border border-[#dbeafe] p-6">
         <h2 className="text-lg font-onest font-bold text-[#2c254c] mb-4">Content</h2>
-        <div className="space-y-4">
+        <div className="space-y-6">
           <div>
             <label htmlFor="body_markdown" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
-              Main Content (Markdown) *
+              About This Service (Markdown) *
             </label>
             <textarea
               id="body_markdown"
@@ -206,7 +453,7 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
               onChange={handleChange}
               required
               className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all font-mono text-sm resize-none"
-              placeholder="# Service Details\nDescribe your service..."
+              placeholder="# About This Service\nDescribe your service..."
               rows={6}
               disabled={loading}
             />
@@ -214,7 +461,7 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
 
           <div>
             <label htmlFor="audience_markdown" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
-              Target Audience (Markdown)
+              Who this service is for (Markdown)
             </label>
             <textarea
               id="audience_markdown"
@@ -229,19 +476,79 @@ export function ServiceForm({ service, isEditing = false }: ServiceFormProps) {
           </div>
 
           <div>
-            <label htmlFor="features_markdown" className="block text-sm font-onest font-semibold text-[#2c254c] mb-2">
-              Features & Benefits (Markdown)
-            </label>
-            <textarea
-              id="features_markdown"
-              name="features_markdown"
-              value={formData.features_markdown}
-              onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all font-mono text-sm resize-none"
-              placeholder="- Feature 1\n- Feature 2\n- Feature 3"
-              rows={4}
-              disabled={loading}
-            />
+            <div className="flex justify-between items-center mb-2">
+              <label className="block text-sm font-onest font-semibold text-[#2c254c]">
+                What's included in the service? (Core Tasks)
+              </label>
+              <button
+                type="button"
+                onClick={addCoreTask}
+                className="text-sm text-[#2563eb] font-semibold hover:underline"
+                disabled={loading}
+              >
+                + Add Task
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {coreTasks.map((task, index) => (
+                <div key={index} className="p-4 border border-[#dbeafe] rounded-lg bg-slate-50 relative">
+                  <button
+                    type="button"
+                    onClick={() => removeCoreTask(index)}
+                    className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+                    title="Remove task"
+                  >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+
+                  <div className="grid gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-[#4f4865] mb-1">Task Title</label>
+                      <input
+                        type="text"
+                        value={task.title}
+                        onChange={(e) => handleCoreTaskChange(index, 'title', e.target.value)}
+                        className="w-full px-3 py-2 rounded border border-[#dbeafe] focus:outline-none focus:ring-1 focus:ring-[#2563eb]"
+                        placeholder="e.g. Bathing & grooming"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-[#4f4865] mb-1">Description</label>
+                      <textarea
+                        value={task.description}
+                        onChange={(e) => handleCoreTaskChange(index, 'description', e.target.value)}
+                        className="w-full px-3 py-2 rounded border border-[#dbeafe] focus:outline-none focus:ring-1 focus:ring-[#2563eb] resize-none"
+                        placeholder="Description of the task..."
+                        rows={2}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {coreTasks.length === 0 && (
+                <div className="text-center py-8 border-2 border-dashed border-[#dbeafe] rounded-lg text-[#4f4865] text-sm">
+                  No core tasks added yet. Click "+ Add Task" to start.
+                </div>
+              )}
+            </div>
+
+            {/* Fallback for legacy markdown editing if needed, hidden if using core tasks */}
+            {coreTasks.length === 0 && formData.features_markdown && !formData.features_markdown.startsWith('[') && (
+              <div className="mt-4">
+                <label className="block text-xs font-semibold text-[#4f4865] mb-1">Legacy Features Markdown (Will be overwritten if you add Core Tasks)</label>
+                <textarea
+                  name="features_markdown"
+                  value={formData.features_markdown}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-lg border border-[#dbeafe] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-transparent transition-all font-mono text-sm resize-none"
+                  rows={4}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

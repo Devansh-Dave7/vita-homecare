@@ -5,7 +5,7 @@ import InfoCards from "../components/InfoCards";
 import ServicesGrid from "../components/ServicesGrid";
 import WhyChooseUs from "../components/WhyChooseUs";
 import Link from "next/link";
-// import TestimonialsSection from "../components/TestimonialsSection";
+import TestimonialsSection from "../components/TestimonialsSection";
 import BlogSection from "../components/BlogSection";
 import Footer from "../components/Footer";
 
@@ -46,7 +46,7 @@ export default function Home() {
       <WhyChooseUs />
 
       {/* Testimonials section (temporarily disabled for localization) */}
-      {/** <TestimonialsSection /> */}
+      <TestimonialsSection />
 
       {/* Blog section */}
       <BlogSection />

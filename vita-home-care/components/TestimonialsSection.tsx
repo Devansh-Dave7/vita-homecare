@@ -1,69 +1,117 @@
-"use client";
-import { useState } from "react";
+'use client';
+
+import { useState, useEffect } from "react";
+import { getPublishedTestimonials } from "@/lib/data/testimonials";
 
 interface Testimonial {
+  id: string;
   quote: string;
   name: string;
-  location: string;
-  image: string;
-  attribution: string;
+  location: string | null;
+  avatar_url: string | null;
+  attribution: string | null;
 }
 
-const testimonials: Testimonial[] = [
-  {
-    quote:
-      "The support and kindness from the caregivers has made a real difference. We feel at ease knowing our loved one is in great hands.",
-    name: "Emily Thompson",
-    location: "Seattle, WA",
-    image:
-      "/testimonial1.jpg",
-    attribution: "Angelina Litvin on Unsplash",
-  },
-  {
-    quote:
-      "The care and attention provided has been exceptional. Our family feels supported and confident in the quality of service.",
-    name: "Sarah Mitchell",
-    location: "Portland, OR",
-    image:
-      "/testimonial2.jpg",
-    attribution: "Tom Morbey on Unsplash",
-  },
-  {
-    quote:
-      "Professional, compassionate, and reliable. The team has made such a positive difference in our daily lives.",
-    name: "Michael Roberts",
-    location: "San Francisco, CA",
-    image:
-      "/testimonial3.jpg",
-    attribution: "Matin Hosseini on Unsplash",
-  },
-];
+/**
+ * Get transformed image URL with size optimization for Supabase storage
+ */
+function getTransformedImageUrl(
+  url: string,
+  options: {
+    width?: number;
+    height?: number;
+    quality?: number;
+  } = {}
+): string {
+  if (!url) return '';
+  
+  // Check if it's a Supabase storage URL
+  if (!url.includes('/storage/v1/object/public/')) {
+    return url; // Return original URL for external images
+  }
+
+  const { width, height, quality = 80 } = options;
+
+  // Build transformation parameters
+  const params = new URLSearchParams();
+  if (width) params.set('width', width.toString());
+  if (height) params.set('height', height.toString());
+  params.set('quality', quality.toString());
+  params.set('resize', 'cover');
+
+  // Convert public URL to render URL for transformations
+  const transformedUrl = url.replace(
+    '/storage/v1/object/public/',
+    '/storage/v1/render/image/public/'
+  );
+
+  return `${transformedUrl}?${params.toString()}`;
+}
 
 export default function TestimonialsSection() {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFading, setIsFading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const data = await getPublishedTestimonials();
+        setTestimonials(data);
+      } catch (error) {
+        console.error('Failed to fetch testimonials:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
 
   const handlePrevious = () => {
-    if (isFading) return; // Prevent rapid clicks during animation
+    if (isFading || testimonials.length === 0) return;
     setIsFading(true);
     setTimeout(() => {
       setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
       setTimeout(() => {
         setIsFading(false);
-      }, 50); // Small delay to ensure content is updated before fading in
-    }, 250); // Half of the animation duration (500ms / 2)
+      }, 50);
+    }, 250);
   };
 
   const handleNext = () => {
-    if (isFading) return; // Prevent rapid clicks during animation
+    if (isFading || testimonials.length === 0) return;
     setIsFading(true);
     setTimeout(() => {
       setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
       setTimeout(() => {
         setIsFading(false);
-      }, 50); // Small delay to ensure content is updated before fading in
-    }, 250); // Half of the animation duration (500ms / 2)
+      }, 50);
+    }, 250);
   };
+
+  if (isLoading) {
+    return (
+      <section className="relative mt-24 py-16 bg-neutral-100 overflow-hidden">
+        <div className="text-center mb-12 px-4 md:px-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0000FF]">
+            Testimonials
+          </p>
+          <h2 className="mt-4 text-4xl font-semibold leading-tight text-[#003366] md:text-5xl">
+            Don't take our word for<br />it take theirs
+          </h2>
+        </div>
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563eb]"></div>
+        </div>
+      </section>
+    );
+  }
+
+  if (testimonials.length === 0) {
+    return null;
+  }
 
   const currentTestimonial = testimonials[currentIndex];
 
@@ -188,13 +236,35 @@ export default function TestimonialsSection() {
 
               {/* Image - Bottom on mobile, Right on desktop */}
               <div className="flex items-center justify-center lg:justify-end order-2 lg:order-2">
-                <div className="relative h-[300px] md:h-[350px] lg:h-[400px] w-full max-w-[340px] overflow-hidden rounded-3xl shadow-[0_20px_50px_-15px_rgba(37,99,235,0.4)]">
-                  <img
-                    src={currentTestimonial.image}
-                    alt={`${currentTestimonial.name} - ${currentTestimonial.attribution}`}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+                {currentTestimonial.avatar_url ? (
+                  <div className="relative h-[300px] md:h-[350px] lg:h-[400px] w-full max-w-[340px] overflow-hidden rounded-3xl shadow-[0_20px_50px_-15px_rgba(37,99,235,0.4)]">
+                    <picture>
+                      {/* Large screens */}
+                      <source
+                        media="(min-width: 1024px)"
+                        srcSet={getTransformedImageUrl(currentTestimonial.avatar_url, { width: 680, height: 800, quality: 85 })}
+                      />
+                      {/* Medium screens */}
+                      <source
+                        media="(min-width: 768px)"
+                        srcSet={getTransformedImageUrl(currentTestimonial.avatar_url, { width: 680, height: 700, quality: 80 })}
+                      />
+                      {/* Small screens */}
+                      <img
+                        src={getTransformedImageUrl(currentTestimonial.avatar_url, { width: 680, height: 600, quality: 75 })}
+                        alt={`${currentTestimonial.name}`}
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    </picture>
+                  </div>
+                ) : (
+                  <div className="relative h-[300px] md:h-[350px] lg:h-[400px] w-full max-w-[340px] overflow-hidden rounded-3xl shadow-[0_20px_50px_-15px_rgba(37,99,235,0.4)] bg-gradient-to-br from-[#e6f0ff] to-[#f2f7ff] flex items-center justify-center">
+                    <svg className="h-20 w-20 text-[#2563eb]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                )}
               </div>
             </div>
           </div>

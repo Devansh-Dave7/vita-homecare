@@ -1,5 +1,4 @@
-'use client';
-
+import { useState } from 'react';
 import type { InquirySubmission } from '@/lib/data/submissions';
 import DeleteButton from './DeleteButton';
 import StatusDropdown from '../contact-submissions/StatusDropdown';
@@ -10,9 +9,26 @@ type InquiryModalProps = {
 };
 
 export default function InquiryModal({ submission, onClose }: InquiryModalProps) {
+  const [showCopied, setShowCopied] = useState(false);
+
+  const handleEmailClick = (e: React.MouseEvent) => {
+    // Copy to clipboard
+    navigator.clipboard.writeText(submission.email);
+    setShowCopied(true);
+    setTimeout(() => setShowCopied(false), 2000);
+    // Allow default mailto behavior to proceed
+  };
+
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white rounded-2xl shadow-xl w-full sm:max-w-3xl max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-2xl shadow-xl w-full sm:max-w-3xl max-h-[90vh] overflow-y-auto relative">
+        {/* Toast Notification */}
+        {showCopied && (
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-full text-sm font-medium z-50 animate-fade-in-down">
+            Email copied to clipboard!
+          </div>
+        )}
+
         <div className="p-6 sm:p-8 border-b border-[#dbeafe] flex justify-between items-start sticky top-0 bg-white z-10">
           <div>
             <h2 className="text-2xl font-onest font-bold text-[#2c254c]">
@@ -105,7 +121,7 @@ export default function InquiryModal({ submission, onClose }: InquiryModalProps)
                   </div>
                 )}
               </div>
-              
+
               {submission.reason && (
                 <div>
                   <label className="text-xs font-bold text-[#6b7280] uppercase tracking-wider font-onest">Reason for Care</label>
@@ -150,8 +166,8 @@ export default function InquiryModal({ submission, onClose }: InquiryModalProps)
             />
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-            <DeleteButton 
-              submissionId={submission.id} 
+            <DeleteButton
+              submissionId={submission.id}
               submissionName={submission.full_name}
               onDeleted={() => {
                 onClose();
@@ -165,6 +181,7 @@ export default function InquiryModal({ submission, onClose }: InquiryModalProps)
             </button>
             <a
               href={`mailto:${submission.email}`}
+              onClick={handleEmailClick}
               className="inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-onest font-semibold text-white bg-[#1450d1] rounded-lg hover:bg-[#1d4ed8] transition-colors w-full sm:w-auto"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

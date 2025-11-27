@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { ServiceForm } from '../ServiceForm';
-import { getServiceCategories } from '@/lib/data/serviceCategories';
+import { getAllServiceCategories } from '@/lib/data/serviceCategories';
+import CategoryManager from './CategoryManager';
 
-export default async function NewServicePage() {
-  const categories = await getServiceCategories();
+export default async function CategoriesPage() {
+  const categories = await getAllServiceCategories();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#e6f0ff] via-white to-[#f2f7ff]">
@@ -13,10 +13,10 @@ export default async function NewServicePage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-onest font-bold text-[#2c254c]">
-                Create New Service
+                Manage Service Categories
               </h1>
               <p className="text-sm text-[#4f4865] font-onest mt-1">
-                Add a new service to your offerings
+                Add, edit, or remove service categories
               </p>
             </div>
             <Link
@@ -31,7 +31,7 @@ export default async function NewServicePage() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <ServiceForm categories={categories} />
+        <CategoryManager initialCategories={categories} />
       </main>
     </div>
   );
