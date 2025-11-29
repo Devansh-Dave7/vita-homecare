@@ -3,6 +3,7 @@ import HeaderNav from "@/components/HeaderNav";
 import Footer from "@/components/Footer";
 import { Onest } from "next/font/google";
 import React from "react";
+import { getAboutPageContent, getAllStaffMembers } from "@/lib/data/about";
 
 const onest = Onest({ subsets: ["latin"], display: "swap" });
 
@@ -12,33 +13,9 @@ export const metadata = {
     "Learn about Vita Homecare's vision, mission, and compassionate caregiving team in Zambia.",
 };
 
-export default function AboutPage() {
-  const staff = [
-    {
-      name: "Grace N.",
-      role: "Senior Caregiver",
-      img:
-        "/about us 1.jpg",
-    },
-    {
-      name: "Peter M.",
-      role: "Care Coordinator",
-      img:
-        "about us 2.jpg",
-    },
-    {
-      name: "Thandi K.",
-      role: "Home Support Assistant",
-      img:
-        "about us 3.jpg",
-    },
-    {
-      name: "Mal S.",
-      role: "Client Liaison",
-      img:
-        "about us 4.jpg",
-    },
-  ];
+export default async function AboutPage() {
+  const content = await getAboutPageContent();
+  const staff = await getAllStaffMembers();
 
   return (
     <main className={`${onest.className} min-h-screen bg-white text-[#2c254c]`}>
@@ -52,20 +29,16 @@ export default function AboutPage() {
             {/* Left: Big Onest heading */}
             <div>
               <h1 className="font-semibold tracking-tight text-[#090717] text-[52px] leading-[1.15] md:text-[68px] lg:text-[80px]">
-                Why we love
+                {content.hero_heading.split(' ').slice(0, 3).join(' ')}
                 <br />
-                what we do
+                {content.hero_heading.split(' ').slice(3).join(' ')}
               </h1>
               <div className="mt-4 h-[10px] w-[260px] rounded-full bg-gradient-to-r from-[#3b82f6] to-[#60a5fa]/60 md:w-[340px] lg:w-[420px]" />
             </div>
 
             {/* Right: Supporting paragraph */}
             <div className="max-w-xl text-[17px] leading-[1.75] text-[#4a435d] lg:pt-4">
-              We believe home is where care is most meaningful. Our healthcare assistants and nurse
-              assistants (not registered nurses) provide flexible, non-medical support that preserves dignity, builds
-              independence, and keeps families closely connected.
-              They offer personal care, companionship, and daily support1assisting with safe mobility,
-              light domestic tasks, and medication reminders.
+              {content.hero_description}
             </div>
           </div>
         </div>
@@ -78,22 +51,22 @@ export default function AboutPage() {
           <div className="grid gap-8 md:grid-cols-3">
             <div className="group overflow-hidden rounded-[32px] shadow-[0_24px_60px_-12px_rgba(37,99,235,0.25)] transition-all duration-500 hover:shadow-[0_32px_80px_-12px_rgba(37,99,235,0.35)]">
               <img
-                src="https://images.pexels.com/photos/7551677/pexels-photo-7551677.jpeg?auto=compress&cs=tinysrgb&w=1200&h=900&dpr=1"
-                alt="Warm embrace between senior couple"
+                src={content.gallery_image_1.url}
+                alt={content.gallery_image_1.alt}
                 className="h-90 w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
             </div>
             <div className="group overflow-hidden rounded-[32px] shadow-[0_24px_60px_-12px_rgba(37,99,235,0.25)] transition-all duration-500 hover:shadow-[0_32px_80px_-12px_rgba(37,99,235,0.35)]">
               <img
-                src="/caregiver with a black man.png"
-                alt="Caregiver with senior smiling"
+                src={content.gallery_image_2.url}
+                alt={content.gallery_image_2.alt}
                 className="h-90 w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
             </div>
             <div className="group overflow-hidden rounded-[32px] shadow-[0_24px_60px_-12px_rgba(37,99,235,0.25)] transition-all duration-500 hover:shadow-[0_32px_80px_-12px_rgba(37,99,235,0.35)]">
               <img
-                src="https://images.pexels.com/photos/5327656/pexels-photo-5327656.jpeg?auto=compress&cs=tinysrgb&w=1200&h=900&dpr=1"
-                alt="Senior exercising with caregiver support"
+                src={content.gallery_image_3.url}
+                alt={content.gallery_image_3.alt}
                 className="h-90 w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
             </div>
@@ -116,7 +89,7 @@ export default function AboutPage() {
               </div>
               <h2 className="text-[32px] font-bold tracking-tight text-[#181322] leading-[1.3]">Vision</h2>
               <p className="mt-6 text-[17px] leading-[1.75] text-[#4a435d]">
-                To be Zambia's most trusted home care provider, delivering compassionate and reliable support at home.
+                {content.vision_text}
               </p>
             </div>
             <div className="absolute bottom-0 right-0 -z-0 h-32 w-32 rounded-full bg-blue-50 opacity-0 transition-all duration-500 group-hover:opacity-100 blur-2xl" />
@@ -131,8 +104,7 @@ export default function AboutPage() {
               </div>
               <h2 className="text-[32px] font-bold tracking-tight text-[#181322] leading-[1.3]">Mission</h2>
               <p className="mt-6 text-[17px] leading-[1.75] text-[#4a435d]">
-                Provide high-quality, flexible non-medical home care through trained caregivers, ensuring clients' dignity,
-                independence, and family connection
+                {content.mission_text}
               </p>
             </div>
             <div className="absolute bottom-0 right-0 -z-0 h-32 w-32 rounded-full bg-blue-50 opacity-0 transition-all duration-500 group-hover:opacity-100 blur-2xl" />
@@ -244,31 +216,38 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center">
             <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#2563eb]">Our team</p>
-            <h2 className="font-semibold tracking-tight text-[#090717] text-[52px] leading-[1.15] md:text-[68px] lg:text-[80px]">Meet our professionals</h2>
+            <h2 className="font-semibold tracking-tight text-[#090717] text-[52px] leading-[1.15] md:text-[68px] lg:text-[80px]">{content.team_heading}</h2>
             <p className="mx-auto mt-6 max-w-2xl text-[17px] leading-[1.75] text-[#4a435d]">
-              Our caregivers provide personal care, companionship, and everyday support. They assist with safe mobility,
-              light domestic tasks, and timely medication reminders. Every team member is certified by the Healthcare
-              Givers Association of Zambia (HCAZ) and completes our in‑house training program covering record keeping,
-              care standards, and client safety.
+              {content.team_description}
             </p>
           </div>
 
           <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {staff.map((m) => (
               <div
-                key={m.name}
+                key={m.id}
                 className="group rounded-[24px] border border-[#e5e7eb] bg-white p-5 shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgb(0,0,0,0.12)]"
               >
                 <div className="aspect-square overflow-hidden rounded-[20px]">
-                  <img
-                    src={m.img}
-                    alt={`${m.name} - ${m.role}`}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
+                  {m.photo_url ? (
+                    <img
+                      src={m.photo_url}
+                      alt={`${m.name} - ${m.role || 'Team Member'}`}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="h-full w-full flex items-center justify-center bg-gray-100 text-gray-300">
+                      <svg className="h-20 w-20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
+                      </svg>
+                    </div>
+                  )}
                 </div>
                 <div className="pt-5 text-center">
                   <h3 className="text-[19px] font-bold tracking-tight text-[#181322] leading-[1.3]">{m.name}</h3>
-                  <p className="mt-1 text-[15px] font-medium text-[#2563eb] leading-[1.5]">{m.role}</p>
+                  {m.role && (
+                    <p className="mt-1 text-[15px] font-medium text-[#2563eb] leading-[1.5]">{m.role}</p>
+                  )}
                 </div>
               </div>
             ))}

@@ -3,12 +3,14 @@ import { signOut } from '@/lib/auth/actions';
 import { getAllBlogPosts } from '@/lib/data/blog';
 import { getAllServices } from '@/lib/data/services';
 import { getAllTestimonials } from '@/lib/data/testimonials';
+import { getAllStaffMembers } from '@/lib/data/about';
 
 export default async function AdminDashboardPage() {
   const adminUser = await getAdminUser();
   const blogs = await getAllBlogPosts();
   const services = await getAllServices();
   const testimonials = await getAllTestimonials();
+  const staffMembers = await getAllStaffMembers();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#e6f0ff] via-white to-[#f2f7ff]">
@@ -104,7 +106,7 @@ export default async function AdminDashboardPage() {
             Content Management
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             <a
               href="/admin/blogs"
               className="group p-6 border-2 border-[#dbeafe] rounded-xl hover:border-[#2563eb] hover:bg-[#f2f7ff] transition-all"
@@ -142,6 +144,27 @@ export default async function AdminDashboardPage() {
                   </h3>
                   <p className="text-sm text-[#4f4865] font-onest">
                     Update service offerings
+                  </p>
+                </div>
+              </div>
+            </a>
+
+            <a
+              href="/admin/about"
+              className="group p-6 border-2 border-[#dbeafe] rounded-xl hover:border-[#2563eb] hover:bg-[#f2f7ff] transition-all"
+            >
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 bg-gradient-to-br from-[#e6f0ff] to-[#f2f7ff] rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <svg className="h-6 w-6 text-[#2563eb]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-onest font-bold text-[#2c254c] group-hover:text-[#2563eb]">
+                    About Us Page
+                  </h3>
+                  <p className="text-sm text-[#4f4865] font-onest">
+                    {staffMembers.length} team members
                   </p>
                 </div>
               </div>

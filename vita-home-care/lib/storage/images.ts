@@ -4,6 +4,7 @@ import { createServiceSupabase } from '@/lib/supabase/server';
 
 const TESTIMONIALS_BUCKET = 'testimonials';
 const SERVICES_BUCKET = 'services';
+const ABOUT_BUCKET = 'about';
 
 /**
  * Generic image upload function for Supabase Storage
@@ -162,6 +163,54 @@ export async function deleteServiceImage(url: string): Promise<{
 
   if (error) {
     console.error('[deleteServiceImage] Delete error:', error);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
+}
+
+/**
+ * Upload an about page image (gallery or staff)
+ */
+export async function uploadAboutImage(data: {
+  base64: string;
+  fileName: string;
+  contentType: string;
+  folder?: string;
+}): Promise<{ success: boolean; url?: string; error?: string }> {
+  return uploadImage(ABOUT_BUCKET, data.folder || 'gallery', {
+    base64: data.base64,
+    fileName: data.fileName,
+    contentType: data.contentType
+  });
+}
+
+/**
+ * Delete an about page image from Supabase Storage
+ */
+export async function deleteAboutImage(url: string): Promise<{
+  success: boolean;
+  error?: string;
+}> {
+  if (!url) {
+    return { success: true };
+  }
+
+  // Extract file path from URL
+  const match = url.match(/about\/(.+)$/);
+  if (!match) {
+    return { success: true }; // Not a Supabase storage URL, skip
+  }
+
+  const filePath = match[1];
+  const supabase = createServiceSupabase();
+
+  const { error } = await supabase.storage
+    .from(ABOUT_BUCKET)
+    .remove([filePath]);
+
+  if (error) {
+    console.error('[deleteAboutImage] Delete error:', error);
     return { success: false, error: error.message };
   }
 
