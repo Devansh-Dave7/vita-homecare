@@ -2,7 +2,6 @@
 
 import { createServerSupabase, createPublicSupabase } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
-import { unstable_noStore as noStore } from 'next/cache';
 
 export type ServiceSpecialty = {
   id: string;
@@ -15,9 +14,9 @@ export type ServiceSpecialty = {
   updated_at: string;
 };
 
-// Get all active specialties (public)
+// Get all active specialties (public) - cached for performance
+// Data is revalidated when admin makes changes via revalidatePath
 export async function getServiceSpecialties(): Promise<ServiceSpecialty[]> {
-  noStore(); // Disable caching to always fetch fresh data
   const supabase = createPublicSupabase();
   const { data, error } = await supabase
     .from('service_specialties')

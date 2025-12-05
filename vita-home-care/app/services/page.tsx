@@ -2,8 +2,25 @@ import TopBar from "../../components/TopBar";
 import HeaderNav from "../../components/HeaderNav";
 import ServicesGrid from "../../components/ServicesGrid";
 import Link from "next/link";
+import { Suspense } from "react";
 
-export const dynamic = "force-static";
+// Loading skeleton for ServicesGrid
+function ServicesGridSkeleton() {
+  return (
+    <div className="w-full animate-pulse">
+      <div className="mb-12 flex flex-wrap justify-center gap-3">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="h-10 w-28 rounded-full bg-gray-200" />
+        ))}
+      </div>
+      <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <div key={i} className="h-96 rounded-3xl bg-gray-200" />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function ServicesPage() {
   return (
@@ -25,7 +42,9 @@ export default function ServicesPage() {
 
       <section className="bg-neutral-100 overflow-hidden py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 md:px-8">
-          <ServicesGrid />
+          <Suspense fallback={<ServicesGridSkeleton />}>
+            <ServicesGrid />
+          </Suspense>
           <div className="mt-12 flex justify-center">
             <Link
               href="/inquiry"

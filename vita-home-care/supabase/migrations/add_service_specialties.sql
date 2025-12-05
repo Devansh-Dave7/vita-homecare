@@ -64,7 +64,7 @@ INSERT INTO service_specialties (name, slug, description, sort_order, is_active)
     'Dementia care', 
     'dementia-care', 
     'Compassionate, patient-focused support for clients living with dementia or memory loss, with routines that feel familiar and safe.', 
-    4,
+    4,q
     true
   ),
   (
