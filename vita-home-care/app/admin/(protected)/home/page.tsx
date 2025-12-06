@@ -15,7 +15,7 @@ export default async function HomeSettingsPage() {
       {/* Navigation Tiles */}
       <section aria-labelledby="home-sections" className="mt-6">
         <h2 id="home-sections" className="sr-only">Homepage sections</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
           <Link href="/admin/home/hero" className="group block overflow-hidden rounded-lg border border-[#e5edff] bg-white shadow-sm hover:shadow-md transition-shadow">
             <div className="p-5 sm:p-6">
               <div className="flex items-start justify-between">
@@ -38,6 +38,54 @@ export default async function HomeSettingsPage() {
                 <div className="space-y-1.5">
                   <h3 className="text-base sm:text-lg font-onest font-semibold text-[#1f2747]">Manage Why Choose Us</h3>
                   <p className="text-xs sm:text-sm text-[#5a617a] font-onest">Edit four points, icons, buttons, and images</p>
+                </div>
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-md bg-[#eef4ff] text-[#2563eb] group-hover:bg-[#e3ecff]">
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/admin/services" className="group block overflow-hidden rounded-lg border border-[#e5edff] bg-white shadow-sm hover:shadow-md transition-shadow">
+            <div className="p-5 sm:p-6">
+              <div className="flex items-start justify-between">
+                <div className="space-y-1.5">
+                  <h3 className="text-base sm:text-lg font-onest font-semibold text-[#1f2747]">Manage Services</h3>
+                  <p className="text-xs sm:text-sm text-[#5a617a] font-onest">Create, edit, and organize services</p>
+                </div>
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-md bg-[#eef4ff] text-[#2563eb] group-hover:bg-[#e3ecff]">
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/admin/testimonials" className="group block overflow-hidden rounded-lg border border-[#e5edff] bg-white shadow-sm hover:shadow-md transition-shadow">
+            <div className="p-5 sm:p-6">
+              <div className="flex items-start justify-between">
+                <div className="space-y-1.5">
+                  <h3 className="text-base sm:text-lg font-onest font-semibold text-[#1f2747]">Manage Testimonials</h3>
+                  <p className="text-xs sm:text-sm text-[#5a617a] font-onest">Publish and organize client feedback</p>
+                </div>
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-md bg-[#eef4ff] text-[#2563eb] group-hover:bg-[#e3ecff]">
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/admin/blogs" className="group block overflow-hidden rounded-lg border border-[#e5edff] bg-white shadow-sm hover:shadow-md transition-shadow">
+            <div className="p-5 sm:p-6">
+              <div className="flex items-start justify-between">
+                <div className="space-y-1.5">
+                  <h3 className="text-base sm:text-lg font-onest font-semibold text-[#1f2747]">Manage Blogs</h3>
+                  <p className="text-xs sm:text-sm text-[#5a617a] font-onest">Write and manage blog posts</p>
                 </div>
                 <span className="inline-flex items-center justify-center w-8 h-8 rounded-md bg-[#eef4ff] text-[#2563eb] group-hover:bg-[#e3ecff]">
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
