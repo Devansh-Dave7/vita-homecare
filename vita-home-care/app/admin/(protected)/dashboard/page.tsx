@@ -106,7 +106,28 @@ export default async function AdminDashboardPage() {
             Content Management
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <a
+              href="/admin/home"
+              className="group p-6 border-2 border-[#dbeafe] rounded-xl hover:border-[#2563eb] hover:bg-[#f2f7ff] transition-all"
+            >
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 bg-gradient-to-br from-[#e6f0ff] to-[#f2f7ff] rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <svg className="h-6 w-6 text-[#2563eb]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-onest font-bold text-[#2c254c] group-hover:text-[#2563eb]">
+                    Homepage
+                  </h3>
+                  <p className="text-sm text-[#4f4865] font-onest">
+                    Edit hero section
+                  </p>
+                </div>
+              </div>
+            </a>
+
             <a
               href="/admin/blogs"
               className="group p-6 border-2 border-[#dbeafe] rounded-xl hover:border-[#2563eb] hover:bg-[#f2f7ff] transition-all"

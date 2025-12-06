@@ -5,6 +5,8 @@ import { createServiceSupabase } from '@/lib/supabase/server';
 const TESTIMONIALS_BUCKET = 'testimonials';
 const SERVICES_BUCKET = 'services';
 const ABOUT_BUCKET = 'about';
+const HOME_BUCKET = 'home-images';
+const WHY_CHOOSE_US_BUCKET = 'why-choose-us-images';
 
 /**
  * Generic image upload function for Supabase Storage
@@ -12,7 +14,8 @@ const ABOUT_BUCKET = 'about';
 async function uploadImage(
   bucketName: string,
   folder: string,
-  data: { base64: string; fileName: string; contentType: string }
+  data: { base64: string; fileName: string; contentType: string },
+  maxSizeMB: number = 5
 ): Promise<{ success: boolean; url?: string; error?: string }> {
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
     console.error(`[uploadImage] SUPABASE_SERVICE_ROLE_KEY is not configured`);
@@ -28,7 +31,7 @@ async function uploadImage(
     return { success: false, error: 'No file data provided' };
   }
 
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/jpg'];
   if (!allowedTypes.includes(contentType)) {
     return { success: false, error: 'Invalid file type. Please upload a JPEG, PNG, WebP, or GIF image.' };
   }
@@ -37,9 +40,9 @@ async function uploadImage(
     const base64Data = base64.replace(/^data:image\/\w+;base64,/, '');
     const buffer = Buffer.from(base64Data, 'base64');
 
-    const maxSize = 5 * 1024 * 1024;
+    const maxSize = maxSizeMB * 1024 * 1024;
     if (buffer.length > maxSize) {
-      return { success: false, error: 'File size too large. Maximum size is 5MB.' };
+      return { success: false, error: `File size too large. Maximum size is ${maxSizeMB}MB.` };
     }
 
     const supabase = createServiceSupabase();
@@ -91,7 +94,7 @@ export async function uploadTestimonialImage(data: {
   fileName: string;
   contentType: string;
 }): Promise<{ success: boolean; url?: string; error?: string }> {
-  return uploadImage(TESTIMONIALS_BUCKET, 'avatars', data);
+  return uploadImage(TESTIMONIALS_BUCKET, 'avatars', data, 5);
 }
 
 /**
@@ -102,7 +105,7 @@ export async function uploadServiceImage(data: {
   fileName: string;
   contentType: string;
 }): Promise<{ success: boolean; url?: string; error?: string }> {
-  return uploadImage(SERVICES_BUCKET, 'hero', data);
+  return uploadImage(SERVICES_BUCKET, 'hero', data, 5);
 }
 
 /**
@@ -182,7 +185,7 @@ export async function uploadAboutImage(data: {
     base64: data.base64,
     fileName: data.fileName,
     contentType: data.contentType
-  });
+  }, 5);
 }
 
 /**
@@ -217,6 +220,94 @@ export async function deleteAboutImage(url: string): Promise<{
   return { success: true };
 }
 
+/**
+ * Upload a home page image from base64 (hero section)
+ * Supports larger files (up to 10MB) for high-quality hero images
+ */
+export async function uploadHomeImageFromBase64(data: {
+  base64: string;
+  fileName: string;
+  contentType: string;
+}): Promise<{ success: boolean; url?: string; error?: string }> {
+  return uploadImage(HOME_BUCKET, 'hero', data, 10); // 10MB limit for hero images
+}
+
+/**
+ * Delete a home page image from Supabase Storage
+ */
+export async function deleteHomeImage(url: string): Promise<{
+  success: boolean;
+  error?: string;
+}> {
+  if (!url) {
+    return { success: true };
+  }
+
+  // Extract file path from URL
+  const match = url.match(/home-images\/(.+)$/);
+  if (!match) {
+    return { success: true }; // Not a Supabase storage URL, skip
+  }
+
+  const filePath = match[1];
+  const supabase = createServiceSupabase();
+
+  const { error } = await supabase.storage
+    .from(HOME_BUCKET)
+    .remove([filePath]);
+
+  if (error) {
+    console.error('[deleteHomeImage] Delete error:', error);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
+}
+
+/**
+ * Upload a Why Choose Us section image from base64
+ * Supports up to 10MB for high-quality images
+ */
+export async function uploadWhyChooseUsImageFromBase64(data: {
+  base64: string;
+  fileName: string;
+  contentType: string;
+  imageNumber?: number; // 1, 2, or 3 (optional)
+}): Promise<{ success: boolean; url?: string; error?: string }> {
+  return uploadImage(WHY_CHOOSE_US_BUCKET, 'section', data, 10);
+}
+
+/**
+ * Delete a Why Choose Us section image from Supabase Storage
+ */
+export async function deleteWhyChooseUsImage(url: string): Promise<{
+  success: boolean;
+  error?: string;
+}> {
+  if (!url) {
+    return { success: true };
+  }
+
+  // Extract file path from URL
+  const match = url.match(/why-choose-us-images\/(.+)$/);
+  if (!match) {
+    return { success: true }; // Not a Supabase storage URL, skip
+  }
+
+  const filePath = match[1];
+  const supabase = createServiceSupabase();
+
+  const { error } = await supabase.storage
+    .from(WHY_CHOOSE_US_BUCKET)
+    .remove([filePath]);
+
+  if (error) {
+    console.error('[deleteWhyChooseUsImage] Delete error:', error);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
+}
 /**
  * Get transformed image URL with size optimization
  * Supabase Storage supports image transformations via URL parameters

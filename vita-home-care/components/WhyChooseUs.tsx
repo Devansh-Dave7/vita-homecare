@@ -1,46 +1,12 @@
-"use client";
 import React from "react";
+import { getWhyChooseUsSettings } from "@/lib/data/whyChooseUsSettings";
+import { getIconByName } from "@/lib/icons";
+import { getTransformedImageUrl } from "@/lib/storage/images";
+import Link from "next/link";
 
-// A reusable section that mirrors the design in the screenshot.
-// It uses the same color system as other components (#6d55d9 accents, #2c254c body).
-export default function WhyChooseUs() {
-  const features: { title: string; icon: React.ReactNode }[] = [
-    {
-      title: "24/7 home care support",
-      icon: (
-        <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#2563eb]" aria-hidden>
-          <path
-            fill="currentColor"
-            d="M12 3c3.9 0 7 1.6 7 3.5S15.9 10 12 10 5 8.4 5 6.5 8.1 3 12 3zm6.8 8.8A9.6 9.6 0 0112 14c-2.6 0-5-.6-6.8-1.2C4.5 18.2 7.9 21 12 21s7.5-2.8 6.8-9.2z"
-          />
-        </svg>
-      ),
-    },
-    {
-      title: "Personal care at home",
-      icon: (
-        <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#2563eb]" aria-hidden>
-          <path fill="currentColor" d="M12 12a4 4 0 100-8 4 4 0 000 8zm6 8H6v-1a5 5 0 015-5h2a5 5 0 015 5v1z" />
-        </svg>
-      ),
-    },
-    {
-      title: "Non-medical daily support",
-      icon: (
-        <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#2563eb]" aria-hidden>
-          <path fill="currentColor" d="M12 17l-5.2 3 1-5.8-4.2-4.1 5.8-.8L12 4l2.6 5.3 5.8.8-4.2 4.1 1 5.8z" />
-        </svg>
-      ),
-    },
-    {
-      title: "Trained care assistants",
-      icon: (
-        <svg viewBox="0 0 24 24" className="h-6 w-6 text-[#2563eb]" aria-hidden>
-          <path fill="currentColor" d="M12.1 21.3l-1.1-1C6.1 16.1 3 13.3 3 9.8 3 7.5 4.7 5.8 7 5.8c1.3 0 2.6.6 3.4 1.6.8-1 2.1-1.6 3.4-1.6 2.3 0 4 1.7 4 4 0 3.5-3.1 6.3-8 10.5l-1.1 1z" />
-        </svg>
-      ),
-    },
-  ];
+export default async function WhyChooseUs() {
+  const settings = await getWhyChooseUsSettings();
+  const enabledFeatures = settings.features.filter(f => f.enabled);
 
   return (
     <section className="relative mx-auto mt-24 max-w-7xl px-4 text-[#2c254c] md:px-8">
@@ -53,77 +19,93 @@ export default function WhyChooseUs() {
             <div className="flex flex-col gap-4">
               {/* Image 1: top-left - elderly couple at laptop */}
               <div className="h-[250px] overflow-hidden rounded-[28px] shadow-[0_20px_45px_-25px_rgba(37,99,235,0.45)]">
-                <img
-                  src="/personal care.jpg"
-                  alt="Elderly couple using laptop together"
-                  className="h-full w-full object-cover"
-                />
+                {settings.image_url_1 ? (
+                  <img
+                    src={await getTransformedImageUrl(settings.image_url_1, { width: 540, height: 250, quality: 80 })}
+                    alt="Why choose us image 1"
+                    loading="lazy"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <img src="/personal care.jpg" alt="Elderly couple using laptop together" className="h-full w-full object-cover" />
+                )}
               </div>
 
               {/* Image 2: bottom-left - woman with hat and flowers */}
               <div className="h-[250px] overflow-hidden rounded-[28px] shadow-[0_20px_45px_-25px_rgba(37,99,235,0.45)]">
-                <img
-                  src="/companionship.jpg"
-                  alt="Senior woman with hat holding flowers outdoors"
-                  className="h-full w-full object-cover"
-                />
+                {settings.image_url_2 ? (
+                  <img
+                    src={await getTransformedImageUrl(settings.image_url_2, { width: 540, height: 250, quality: 80 })}
+                    alt="Why choose us image 2"
+                    loading="lazy"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <img src="/companionship.jpg" alt="Senior woman with hat holding flowers outdoors" className="h-full w-full object-cover" />
+                )}
               </div>
             </div>
 
             {/* Right column - single large image */}
             <div className="h-full overflow-hidden rounded-[36px] shadow-[0_35px_70px_-35px_rgba(37,99,235,0.60)]">
-              <img
-                src="/domestic help.jpg"
-                alt="Elderly couple embracing warmly"
-                className="h-full w-full object-cover"
-              />
+              {settings.image_url_3 ? (
+                <img
+                  src={await getTransformedImageUrl(settings.image_url_3, { width: 540, height: 520, quality: 80 })}
+                  alt="Why choose us image 3"
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <img src="/domestic help.jpg" alt="Elderly couple embracing warmly" className="h-full w-full object-cover" />
+              )}
             </div>
           </div>
         </div>
 
         {/* Right: content */}
         <div className="order-1 lg:order-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2563eb]">Why choose us</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2563eb]">{settings.badge_text}</p>
           <h2 className="mt-4 text-4xl font-semibold leading-tight text-[#181322] md:text-5xl">
-            The <span className="relative inline-block">
-              right care
+            {settings.heading_main} <span className="relative inline-block">
+              {settings.heading_highlight}
               <span className="absolute -bottom-1 left-0 h-2 w-full rounded bg-[#2563eb]" aria-hidden />
             </span>{" "}
-            for your
-            <br /> loved ones
+            {settings.heading_suffix}
           </h2>
           <p className="mt-5 max-w-xl text-base leading-7 text-[#4f4865]">
-            Our healthcare assistants and nurse assistants (not registered nurses) provide personal care, companionship,
-            and daily support. They assist with safe mobility, light domestic tasks, and medication reminders, helping
-            older adults live independently at home with non-medical support.
+            {settings.description}
           </p>
 
           {/* Features grid */}
           <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
-            {features.map((f) => (
-              <div key={f.title} className="flex items-center gap-4">
+            {enabledFeatures.map((feature) => (
+              <div key={feature.id} className="flex items-center gap-4">
                 <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#e6f0ff] text-[#2563eb] shadow-[0_12px_25px_-12px_rgba(37,99,235,0.6)]">
-                  {f.icon}
+                  {getIconByName(feature.icon_name, "h-6 w-6")}
                 </span>
-                <span className="text-lg font-semibold">{f.title}</span>
+                <span className="text-lg font-semibold">{feature.title}</span>
               </div>
             ))}
           </div>
 
           {/* Buttons */}
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <a
-              href="/about"
-              className="rounded-full bg-[#2563eb] px-8 py-4 text-sm font-semibold text-white shadow-lg hover:bg-[#1e40af] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563eb] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl"
-            >
-              More about us
-            </a>
-            <a
-              href="#services"
-              className="rounded-full border-2 border-[#dbeafe] bg-white px-8 py-4 text-sm font-semibold text-[#2c254c] shadow-md hover:border-[#2563eb] hover:bg-[#e6f0ff] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
-            >
-              Browse services
-            </a>
+            {settings.primary_button_enabled && (
+              <Link
+                href={settings.primary_button_url}
+                className="rounded-full bg-[#2563eb] px-8 py-4 text-sm font-semibold text-white shadow-lg hover:bg-[#1e40af] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563eb] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl"
+              >
+                {settings.primary_button_text}
+              </Link>
+            )}
+            {settings.secondary_button_enabled && (
+              <Link
+                href={settings.secondary_button_url || '#'}
+                className="rounded-full border-2 border-[#dbeafe] bg-white px-8 py-4 text-sm font-semibold text-[#2c254c] shadow-md hover:border-[#2563eb] hover:bg-[#e6f0ff] transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
+              >
+                {settings.secondary_button_text}
+              </Link>
+            )}
           </div>
         </div>
       </div>
