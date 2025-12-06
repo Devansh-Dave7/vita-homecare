@@ -8,7 +8,7 @@ export default async function Page() {
 
   return (
     <AdminShell>
-      <AdminHeader title="Manage Why Choose Us" description="Edit heading, features, buttons, and images" />
+      <AdminHeader />
       <div className="grid grid-cols-1 gap-6">
         <WhyChooseUsForm initialSettings={settings} />
       </div>

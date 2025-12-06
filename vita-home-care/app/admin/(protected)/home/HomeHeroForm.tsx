@@ -84,7 +84,7 @@ export default function HomeHeroForm({ initialSettings }: HomeHeroFormProps) {
       if (result.success && result.url) {
         setFormData(prev => ({
           ...prev,
-          hero_image_url: result.url
+          hero_image_url: result.url ?? prev.hero_image_url
         }));
       } else {
         setError(result.error || 'Failed to upload image');
